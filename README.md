@@ -90,12 +90,6 @@
 - ✅ Quản lý mục tiêu dài hạn
 - ✅ Liên kết task với goal để theo dõi tiến độ
 
-### AI Assistant
-- ✅ Tích hợp **Google Gemini API**
-- ✅ Gợi ý tags tự động dựa trên tiêu đề và mô tả task
-- ✅ Test kết nối trực tiếp trong cài đặt
-- ✅ Chọn model Gemini (mặc định: `gemini-2.0-flash`)
-
 ### Chế độ Focus (Pomodoro-style)
 - ✅ Timer tùy chọn: 15 / 25 / 45 / 60 / 90 / 120 phút
 - ✅ Tắt toast notification và âm thanh trong khi focus
