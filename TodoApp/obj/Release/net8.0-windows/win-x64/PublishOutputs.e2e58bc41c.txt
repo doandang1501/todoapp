@@ -1,0 +1,7 @@
+D:\Congty\canhan\ToDoApp\publish\appsettings.json
+D:\Congty\canhan\ToDoApp\publish\D3DCompiler_47_cor3.dll
+D:\Congty\canhan\ToDoApp\publish\PenImc_cor3.dll
+D:\Congty\canhan\ToDoApp\publish\PresentationNative_cor3.dll
+D:\Congty\canhan\ToDoApp\publish\vcruntime140_cor3.dll
+D:\Congty\canhan\ToDoApp\publish\wpfgfx_cor3.dll
+D:\Congty\canhan\ToDoApp\publish\TodoApp.exe

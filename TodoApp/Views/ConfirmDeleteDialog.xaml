@@ -1,0 +1,102 @@
+<Window x:Class="TodoApp.Views.ConfirmDeleteDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Confirm"
+        Width="380"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        AllowsTransparency="False"
+        Background="{DynamicResource AppBackground}"
+        TextElement.Foreground="{DynamicResource TextPrimaryBrush}"
+        TextElement.FontSize="13"
+        FontFamily="{materialDesign:MaterialDesignFont}">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="44"
+                      ResizeBorderThickness="0"
+                      GlassFrameThickness="0"
+                      CornerRadius="0"
+                      UseAeroCaptionButtons="False"/>
+    </WindowChrome.WindowChrome>
+
+    <StackPanel>
+
+        <!-- Title bar (draggable region, CaptionHeight=44) -->
+        <Grid Height="44">
+            <Button HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Margin="0,0,8,0"
+                    Style="{DynamicResource IconButtonStyle}"
+                    Width="32" Height="32"
+                    WindowChrome.IsHitTestVisibleInChrome="True"
+                    Click="CloseBtn_Click">
+                <materialDesign:PackIcon Kind="Close" Width="16" Height="16"
+                                         Foreground="{DynamicResource TextSecondaryBrush}"/>
+            </Button>
+        </Grid>
+
+        <!-- Content -->
+        <StackPanel Margin="36,0,36,32">
+
+            <!-- Icon circle -->
+            <Border Width="64" Height="64" CornerRadius="32"
+                    Background="#FFEEEE"
+                    HorizontalAlignment="Center"
+                    Margin="0,0,0,20">
+                <materialDesign:PackIcon Kind="TrashCanOutline"
+                                         Width="32" Height="32"
+                                         Foreground="#E53935"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"/>
+            </Border>
+
+            <!-- Title -->
+            <TextBlock Text="{DynamicResource Dialog_ConfirmDelete}"
+                       FontSize="17" FontWeight="SemiBold"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,10"/>
+
+            <!-- Task name -->
+            <TextBlock x:Name="TaskNameText"
+                       FontSize="13" FontWeight="Medium"
+                       HorizontalAlignment="Center"
+                       TextAlignment="Center"
+                       TextWrapping="Wrap"
+                       Foreground="{DynamicResource TextPrimaryBrush}"
+                       Margin="0,0,0,6"/>
+
+            <!-- Warning -->
+            <TextBlock Text="{DynamicResource Dialog_DeleteWarning}"
+                       FontSize="12"
+                       HorizontalAlignment="Center"
+                       TextAlignment="Center"
+                       Foreground="{DynamicResource TextSecondaryBrush}"
+                       Margin="0,0,0,28"/>
+
+            <!-- Buttons -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0"
+                        Content="{DynamicResource Btn_Cancel}"
+                        Style="{DynamicResource GhostButtonStyle}"
+                        Padding="0,11"
+                        Click="CancelBtn_Click"/>
+
+                <Button Grid.Column="2"
+                        Content="{DynamicResource Btn_DeleteConfirm}"
+                        Style="{DynamicResource DangerButtonStyle}"
+                        Padding="0,11"
+                        Click="DeleteBtn_Click"/>
+            </Grid>
+
+        </StackPanel>
+    </StackPanel>
+</Window>

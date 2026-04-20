@@ -1,0 +1,105 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         PINK PALETTE  (Material Design Pink 50–900)
+         ThemeService swaps these values at runtime for dark mode / custom themes.
+    ════════════════════════════════════════════════════════════════════════ -->
+
+    <!-- Raw colours -->
+    <Color x:Key="Primary50Color">#FCE4EC</Color>
+    <Color x:Key="Primary100Color">#F8BBD9</Color>
+    <Color x:Key="Primary200Color">#F48FB1</Color>
+    <Color x:Key="Primary300Color">#F06292</Color>
+    <Color x:Key="Primary400Color">#EC407A</Color>
+    <Color x:Key="Primary500Color">#E91E63</Color>
+    <Color x:Key="Primary600Color">#D81B60</Color>
+    <Color x:Key="Primary700Color">#C2185B</Color>
+    <Color x:Key="Primary800Color">#AD1457</Color>
+    <Color x:Key="Primary900Color">#880E4F</Color>
+
+    <Color x:Key="AccentAColor">#FF80AB</Color>
+    <Color x:Key="AccentBColor">#FF4081</Color>
+    <Color x:Key="AccentCColor">#F50057</Color>
+
+    <!-- Surfaces -->
+    <Color x:Key="BackgroundColorKey">#FFF5F9</Color>
+    <Color x:Key="SidebarBackgroundColorKey">#FFFFFF</Color>
+    <Color x:Key="SurfaceColorKey">#FFFFFF</Color>
+    <Color x:Key="CardColorKey">#FFFFFF</Color>
+
+    <!-- Text -->
+    <Color x:Key="TextPrimaryColorKey">#212121</Color>
+    <Color x:Key="TextSecondaryColorKey">#757575</Color>
+    <Color x:Key="TextHintColorKey">#BDBDBD</Color>
+    <Color x:Key="TextOnPrimaryColorKey">#FFFFFF</Color>
+
+    <!-- Semantic -->
+    <Color x:Key="SuccessColorKey">#4CAF50</Color>
+    <Color x:Key="WarningColorKey">#FF9800</Color>
+    <Color x:Key="ErrorColorKey">#F44336</Color>
+    <Color x:Key="InfoColorKey">#2196F3</Color>
+
+    <!-- Priority -->
+    <Color x:Key="PriorityLowColorKey">#8BC34A</Color>
+    <Color x:Key="PriorityMediumColorKey">#FF9800</Color>
+    <Color x:Key="PriorityHighColorKey">#FF5722</Color>
+    <Color x:Key="PriorityCriticalColorKey">#F44336</Color>
+
+    <!-- Borders / dividers -->
+    <Color x:Key="DividerColorKey">#EEEEEE</Color>
+    <Color x:Key="BorderColorKey">#E0E0E0</Color>
+
+    <!-- Overlay / shadow -->
+    <Color x:Key="OverlayColorKey">#88000000</Color>
+    <Color x:Key="ShadowColorKey">#22000000</Color>
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         BRUSHES
+    ════════════════════════════════════════════════════════════════════════ -->
+
+    <!-- Primary pink brushes -->
+    <SolidColorBrush x:Key="Primary50Brush"  Color="{StaticResource Primary50Color}"/>
+    <SolidColorBrush x:Key="Primary100Brush" Color="{StaticResource Primary100Color}"/>
+    <SolidColorBrush x:Key="Primary200Brush" Color="{StaticResource Primary200Color}"/>
+    <SolidColorBrush x:Key="Primary300Brush" Color="{StaticResource Primary300Color}"/>
+    <SolidColorBrush x:Key="PrimaryBrush"    Color="{StaticResource Primary500Color}"/>
+    <SolidColorBrush x:Key="PrimaryLightBrush" Color="{StaticResource Primary200Color}"/>
+    <SolidColorBrush x:Key="PrimaryDarkBrush"  Color="{StaticResource Primary700Color}"/>
+
+    <!-- Accent -->
+    <SolidColorBrush x:Key="AccentBrush"      Color="{StaticResource AccentBColor}"/>
+    <SolidColorBrush x:Key="AccentLightBrush"  Color="{StaticResource AccentAColor}"/>
+
+    <!-- Surfaces -->
+    <SolidColorBrush x:Key="AppBackground"      Color="{StaticResource BackgroundColorKey}"/>
+    <SolidColorBrush x:Key="SidebarBackground"   Color="{StaticResource SidebarBackgroundColorKey}"/>
+    <SolidColorBrush x:Key="SurfaceBrush"        Color="{StaticResource SurfaceColorKey}"/>
+    <SolidColorBrush x:Key="CardBackgroundBrush" Color="{StaticResource CardColorKey}"/>
+
+    <!-- Text -->
+    <SolidColorBrush x:Key="TextPrimaryBrush"   Color="{StaticResource TextPrimaryColorKey}"/>
+    <SolidColorBrush x:Key="TextSecondaryBrush"  Color="{StaticResource TextSecondaryColorKey}"/>
+    <SolidColorBrush x:Key="TextHintBrush"       Color="{StaticResource TextHintColorKey}"/>
+    <SolidColorBrush x:Key="TextOnPrimaryBrush"  Color="{StaticResource TextOnPrimaryColorKey}"/>
+
+    <!-- Semantic -->
+    <SolidColorBrush x:Key="SuccessBrush"  Color="{StaticResource SuccessColorKey}"/>
+    <SolidColorBrush x:Key="WarningBrush"  Color="{StaticResource WarningColorKey}"/>
+    <SolidColorBrush x:Key="ErrorBrush"    Color="{StaticResource ErrorColorKey}"/>
+    <SolidColorBrush x:Key="InfoBrush"     Color="{StaticResource InfoColorKey}"/>
+
+    <!-- Priority -->
+    <SolidColorBrush x:Key="PriorityLowBrush"      Color="{StaticResource PriorityLowColorKey}"/>
+    <SolidColorBrush x:Key="PriorityMediumBrush"    Color="{StaticResource PriorityMediumColorKey}"/>
+    <SolidColorBrush x:Key="PriorityHighBrush"      Color="{StaticResource PriorityHighColorKey}"/>
+    <SolidColorBrush x:Key="PriorityCriticalBrush"  Color="{StaticResource PriorityCriticalColorKey}"/>
+
+    <!-- Structure -->
+    <SolidColorBrush x:Key="DividerBrush"  Color="{StaticResource DividerColorKey}"/>
+    <SolidColorBrush x:Key="BorderBrush2"  Color="{StaticResource BorderColorKey}"/>
+
+    <!-- Overlays -->
+    <SolidColorBrush x:Key="OverlayBrush" Color="{StaticResource OverlayColorKey}"/>
+
+</ResourceDictionary>

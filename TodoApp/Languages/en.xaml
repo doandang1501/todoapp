@@ -1,0 +1,368 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- ═══════════════════════════════ APP ═══════════════════════════════════ -->
+    <sys:String x:Key="App_Title">TodoApp</sys:String>
+    <sys:String x:Key="App_Subtitle">Personal Task Manager</sys:String>
+
+    <!-- ═══════════════════════════════ NAV ═══════════════════════════════════ -->
+    <sys:String x:Key="Nav_Views">VIEWS</sys:String>
+    <sys:String x:Key="Nav_Tools">TOOLS</sys:String>
+    <sys:String x:Key="Nav_TaskList">Task List</sys:String>
+    <sys:String x:Key="Nav_KanbanBoard">Kanban Board</sys:String>
+    <sys:String x:Key="Nav_Statistics">Statistics</sys:String>
+    <sys:String x:Key="Nav_WatchLater">Watch Later</sys:String>
+    <sys:String x:Key="Nav_Labels">Labels</sys:String>
+    <sys:String x:Key="Nav_Goals">Goals</sys:String>
+    <sys:String x:Key="Nav_Calendar">Calendar</sys:String>
+    <sys:String x:Key="Nav_StickyNotes">Sticky Notes</sys:String>
+    <sys:String x:Key="Nav_FocusMode">Focus Mode</sys:String>
+    <sys:String x:Key="Nav_FocusOn">Focus: ON</sys:String>
+    <sys:String x:Key="Nav_Settings">Settings</sys:String>
+
+    <!-- ═══════════════════════════════ COMMON ════════════════════════════════ -->
+    <sys:String x:Key="Btn_Save">Save</sys:String>
+    <sys:String x:Key="Btn_Cancel">Cancel</sys:String>
+    <sys:String x:Key="Btn_Delete">Delete</sys:String>
+    <sys:String x:Key="Btn_Edit">Edit</sys:String>
+    <sys:String x:Key="Btn_Add">Add</sys:String>
+    <sys:String x:Key="Btn_Close">Close</sys:String>
+    <sys:String x:Key="Btn_Yes">Yes</sys:String>
+    <sys:String x:Key="Btn_No">No</sys:String>
+    <sys:String x:Key="Btn_Browse">Browse…</sys:String>
+    <sys:String x:Key="Btn_TestSound">Test Sound</sys:String>
+    <sys:String x:Key="Btn_Refresh">Refresh</sys:String>
+    <sys:String x:Key="Btn_Test">Test</sys:String>
+    <sys:String x:Key="Btn_SaveSettings">Save Settings</sys:String>
+    <sys:String x:Key="Btn_DeleteConfirm">Delete</sys:String>
+
+    <!-- ═══════════════════════════════ DIALOGS ═══════════════════════════════ -->
+    <sys:String x:Key="Dialog_ConfirmDelete">Delete task?</sys:String>
+    <sys:String x:Key="Dialog_DeleteWarning">This action cannot be undone.</sys:String>
+
+    <!-- ═══════════════════════════════ TASK LIST ══════════════════════════════ -->
+    <sys:String x:Key="Page_Tasks">Task List</sys:String>
+    <sys:String x:Key="Task_MyTasks">My Tasks</sys:String>
+    <sys:String x:Key="Task_NewTask">New Task</sys:String>
+    <sys:String x:Key="Task_AddTask">+ Add Task</sys:String>
+    <sys:String x:Key="Task_SearchPlaceholder">Search tasks…</sys:String>
+    <sys:String x:Key="Task_FilterAll">All</sys:String>
+    <sys:String x:Key="Task_FilterActive">Active</sys:String>
+    <sys:String x:Key="Task_FilterDone">Done</sys:String>
+    <sys:String x:Key="Task_FilterOverdue">Overdue</sys:String>
+    <sys:String x:Key="Task_FilterToday">Today</sys:String>
+    <sys:String x:Key="Task_FilterPinned">Pinned</sys:String>
+    <sys:String x:Key="Task_FilterHigh">High+</sys:String>
+    <sys:String x:Key="Task_SortBy">Sort by:</sys:String>
+    <sys:String x:Key="Task_SortPriority">Priority</sys:String>
+    <sys:String x:Key="Task_SortTitle">Title</sys:String>
+    <sys:String x:Key="Task_SortDeadline">Deadline</sys:String>
+    <sys:String x:Key="Task_SortCreated">Created</sys:String>
+    <sys:String x:Key="Task_Empty">No tasks found</sys:String>
+    <sys:String x:Key="Task_EmptyHint">Press "+ Add Task" to get started</sys:String>
+    <sys:String x:Key="Task_Edit">Edit</sys:String>
+    <sys:String x:Key="Task_Pin">Pin</sys:String>
+    <sys:String x:Key="Task_Delete">Delete</sys:String>
+    <sys:String x:Key="Summary_Total"> total · </sys:String>
+    <sys:String x:Key="Summary_Today"> today</sys:String>
+
+    <!-- ═══════════════════════════ TASK DETAIL DIALOG ═══════════════════════ -->
+    <sys:String x:Key="Task_AddNewTitle">Add New Task</sys:String>
+    <sys:String x:Key="Task_EditTitle">Edit Task</sys:String>
+    <sys:String x:Key="Task_TitleLabel">TITLE *</sys:String>
+    <sys:String x:Key="Task_TitleHint">Task title…</sys:String>
+    <sys:String x:Key="Task_DescLabel">DESCRIPTION</sys:String>
+    <sys:String x:Key="Task_DescHint">Optional notes…</sys:String>
+    <sys:String x:Key="Task_PriorityLabel">PRIORITY</sys:String>
+    <sys:String x:Key="Task_StatusLabel">STATUS</sys:String>
+    <sys:String x:Key="Task_StatusTodo">To Do</sys:String>
+    <sys:String x:Key="Task_StatusInProgress">In Progress</sys:String>
+    <sys:String x:Key="Task_StatusDone">Done</sys:String>
+    <sys:String x:Key="Task_DeadlineLabel">DEADLINE</sys:String>
+    <sys:String x:Key="Task_SelectDate">Select date</sys:String>
+    <sys:String x:Key="Task_TagsLabel">TAGS</sys:String>
+    <sys:String x:Key="Task_AddTagHint">Add tag…</sys:String>
+    <sys:String x:Key="Task_SubtasksLabel">SUBTASKS</sys:String>
+    <sys:String x:Key="Task_AddSubtaskHint">Add subtask…</sys:String>
+    <sys:String x:Key="Task_RemindMe">REMIND ME</sys:String>
+    <sys:String x:Key="Remind_1DayBefore">1 day before</sys:String>
+    <sys:String x:Key="Remind_1HourBefore">1 hour before</sys:String>
+    <sys:String x:Key="Remind_5MinBefore">5 min before</sys:String>
+    <sys:String x:Key="Remind_AtDeadline">At deadline</sys:String>
+    <sys:String x:Key="Remind_1DayAfter">1 day after</sys:String>
+    <sys:String x:Key="Task_PinLabel">Pin this task to the top</sys:String>
+    <sys:String x:Key="Task_SaveBtn">Save Task</sys:String>
+
+    <!-- ═══════════════════════════════ KANBAN ═════════════════════════════════ -->
+    <sys:String x:Key="Page_Kanban">Kanban Board</sys:String>
+    <sys:String x:Key="Kanban_Todo">To Do</sys:String>
+    <sys:String x:Key="Kanban_InProgress">In Progress</sys:String>
+    <sys:String x:Key="Kanban_Done">Done</sys:String>
+    <sys:String x:Key="Kanban_AddTask">+ Add Task</sys:String>
+    <sys:String x:Key="Kanban_SummaryTodo"> to-do · </sys:String>
+    <sys:String x:Key="Kanban_SummaryInProgress"> in progress · </sys:String>
+    <sys:String x:Key="Kanban_SummaryDone"> done</sys:String>
+
+    <!-- ═══════════════════════════════ STATISTICS ═════════════════════════════ -->
+    <sys:String x:Key="Page_Statistics">Statistics</sys:String>
+    <sys:String x:Key="Stat_ActiveTasks">ACTIVE TASKS</sys:String>
+    <sys:String x:Key="Stat_CompletedToday">COMPLETED TODAY</sys:String>
+    <sys:String x:Key="Stat_Overdue">OVERDUE</sys:String>
+    <sys:String x:Key="Stat_DueSoon">DUE IN 3 DAYS</sys:String>
+    <sys:String x:Key="Stat_CurrentStreak">CURRENT STREAK (DAYS)</sys:String>
+    <sys:String x:Key="Stat_LongestStreak">LONGEST STREAK (DAYS)</sys:String>
+    <sys:String x:Key="Stat_CompletionRate">7-DAY COMPLETION RATE</sys:String>
+    <sys:String x:Key="Stat_AvgTime">AVG COMPLETION TIME</sys:String>
+    <sys:String x:Key="Stat_TopTags">TOP TAGS</sys:String>
+    <sys:String x:Key="Stat_NoTags">No tags yet</sys:String>
+
+    <!-- Chart titles (used by OxyPlot PlotModel.Title) -->
+    <sys:String x:Key="Chart_Daily30Days">Completed tasks — last 30 days</sys:String>
+    <sys:String x:Key="Chart_ByPriority">Tasks by priority</sys:String>
+    <sys:String x:Key="Chart_ByHour">Completions by hour</sys:String>
+
+    <!-- ═══════════════════════════════ STICKY NOTES ═══════════════════════════ -->
+    <sys:String x:Key="Page_StickyNotes">Sticky Notes</sys:String>
+    <sys:String x:Key="StickyNotes_NewNote">New Note</sys:String>
+    <sys:String x:Key="StickyNotes_Empty">No sticky notes yet</sys:String>
+    <sys:String x:Key="StickyNotes_EmptyHint">Click "New Note" to create your first sticky note</sys:String>
+
+    <!-- ═══════════════════════════════ SETTINGS ═══════════════════════════════ -->
+    <sys:String x:Key="Page_Settings">Settings</sys:String>
+    <sys:String x:Key="Settings_General">General</sys:String>
+    <sys:String x:Key="Settings_Appearance">Appearance</sys:String>
+    <sys:String x:Key="Settings_Notifications">Notifications</sys:String>
+    <sys:String x:Key="Settings_Sound">Sound</sys:String>
+    <sys:String x:Key="Settings_Email">Email</sys:String>
+    <sys:String x:Key="Settings_Backup">Backup</sys:String>
+    <sys:String x:Key="Settings_Focus">Focus Mode</sys:String>
+    <sys:String x:Key="Settings_Language">Language</sys:String>
+
+    <!-- General tab -->
+    <sys:String x:Key="Settings_Startup">STARTUP</sys:String>
+    <sys:String x:Key="Settings_RunOnStartup">Run on Windows startup</sys:String>
+    <sys:String x:Key="Settings_StartMinimized">Start minimized to tray</sys:String>
+    <sys:String x:Key="Settings_MinimizeToTray">Minimize to system tray on close</sys:String>
+    <sys:String x:Key="Settings_ShowInTaskbar">Show in taskbar</sys:String>
+    <sys:String x:Key="Settings_DefaultView">Default view on launch</sys:String>
+    <sys:String x:Key="Settings_DefaultViewHint">Which page opens first</sys:String>
+    <sys:String x:Key="Settings_GlobalHotkey">Global hotkey</sys:String>
+    <sys:String x:Key="Settings_GlobalHotkeyHint">Opens the app from anywhere</sys:String>
+
+    <!-- Appearance tab -->
+    <sys:String x:Key="Str_ThemeMode">THEME MODE</sys:String>
+    <sys:String x:Key="Str_ThemeLight">Light</sys:String>
+    <sys:String x:Key="Str_ThemeDark">Dark</sys:String>
+    <sys:String x:Key="Str_ColorPreset">COLOR PRESET</sys:String>
+    <sys:String x:Key="Str_ColorPresetHint">Click a colour for an instant live preview</sys:String>
+    <sys:String x:Key="Settings_Effects">EFFECTS</sys:String>
+    <sys:String x:Key="Settings_UseAnimations">Enable UI animations</sys:String>
+    <sys:String x:Key="Settings_ShowConfetti">Show confetti on task completion</sys:String>
+    <sys:String x:Key="Settings_AutoDarkMode">Automatic dark mode</sys:String>
+    <sys:String x:Key="Settings_AutoDarkModeHint">Switch between Light and Dark based on time of day</sys:String>
+    <sys:String x:Key="Settings_DarkModeStart">Dark mode starts at hour (0–23)</sys:String>
+    <sys:String x:Key="Settings_LightModeStart">Light mode resumes at hour (0–23)</sys:String>
+
+    <!-- Notifications tab -->
+    <sys:String x:Key="Settings_EnableNotifications">Enable notifications</sys:String>
+    <sys:String x:Key="Settings_ReminderTimes">DEFAULT REMINDER TIMES</sys:String>
+    <sys:String x:Key="Settings_Notify1Day">1 day before deadline</sys:String>
+    <sys:String x:Key="Settings_Notify1Hour">1 hour before deadline</sys:String>
+    <sys:String x:Key="Settings_Notify5Min">5 minutes before deadline</sys:String>
+    <sys:String x:Key="Settings_NotifyAtDeadline">At deadline</sys:String>
+    <sys:String x:Key="Settings_NotifyOverdue">1 day after deadline (overdue reminder)</sys:String>
+    <sys:String x:Key="Settings_ToastSettings">TOAST SETTINGS</sys:String>
+    <sys:String x:Key="Settings_ToastDuration">Auto-dismiss after (seconds)</sys:String>
+    <sys:String x:Key="Settings_CheckInterval">Check interval (seconds)</sys:String>
+    <sys:String x:Key="Settings_DetectMissed">Detect missed notifications on startup</sys:String>
+
+    <!-- Sound tab -->
+    <sys:String x:Key="Settings_EnableSound">Enable sounds</sys:String>
+    <sys:String x:Key="Settings_MasterVolume">MASTER VOLUME</sys:String>
+    <sys:String x:Key="Settings_PlayCompletion">Play sound when task is completed</sys:String>
+    <sys:String x:Key="Settings_CustomSound">CUSTOM COMPLETION SOUND</sys:String>
+    <sys:String x:Key="Settings_SoundHint">Leave empty to use default</sys:String>
+
+    <!-- Email tab -->
+    <sys:String x:Key="Settings_EnableEmail">Enable email notifications</sys:String>
+    <sys:String x:Key="Settings_EmailProvider">PROVIDER</sys:String>
+    <sys:String x:Key="Settings_BrevoRecommended">Brevo (recommended)</sys:String>
+    <sys:String x:Key="Settings_BrevoApi">BREVO API</sys:String>
+    <sys:String x:Key="Settings_Recipient">RECIPIENT</sys:String>
+    <sys:String x:Key="Settings_SendEmailFor">SEND EMAIL FOR</sys:String>
+    <sys:String x:Key="Settings_Email1Day">1 day before</sys:String>
+    <sys:String x:Key="Settings_Email1Hour">1 hour before</sys:String>
+    <sys:String x:Key="Settings_Email5Min">5 minutes before</sys:String>
+    <sys:String x:Key="Settings_TestEmail">Send Test Email</sys:String>
+    <sys:String x:Key="Settings_SenderEmail">Sender Email</sys:String>
+    <sys:String x:Key="Settings_SenderName">Sender Name</sys:String>
+    <sys:String x:Key="Settings_RecipientEmail">Recipient Email</sys:String>
+    <sys:String x:Key="Settings_RecipientName">Recipient Name</sys:String>
+
+    <!-- Backup tab -->
+    <sys:String x:Key="Page_Backup">Backup &amp; Restore</sys:String>
+    <sys:String x:Key="Settings_AutoBackup">Automatic daily backup</sys:String>
+    <sys:String x:Key="Settings_BackupOnExit">Create backup when app closes</sys:String>
+    <sys:String x:Key="Settings_KeepBackups">Keep last N backups</sys:String>
+    <sys:String x:Key="Settings_BackupFolder">BACKUP FOLDER</sys:String>
+    <sys:String x:Key="Settings_BackupNow">Back Up Now</sys:String>
+    <sys:String x:Key="Settings_Restore">Restore from Backup…</sys:String>
+    <sys:String x:Key="Settings_ExportImport">EXPORT / IMPORT TASKS</sys:String>
+    <sys:String x:Key="Settings_ExportImportHint">Export your tasks to a JSON file to share or archive them. Import tasks from a previously exported file.</sys:String>
+    <sys:String x:Key="Settings_ExportTasks">Export Tasks…</sys:String>
+    <sys:String x:Key="Settings_ImportTasks">Import Tasks…</sys:String>
+
+    <!-- Focus tab -->
+    <sys:String x:Key="Page_Focus">Focus Mode</sys:String>
+    <sys:String x:Key="Settings_FocusDuration">DEFAULT DURATION</sys:String>
+    <sys:String x:Key="Settings_FocusLength">Focus session length (minutes)</sys:String>
+    <sys:String x:Key="Settings_DuringFocus">DURING FOCUS SESSION</sys:String>
+    <sys:String x:Key="Settings_SuppressToasts">Suppress toast notifications</sys:String>
+    <sys:String x:Key="Settings_SuppressSounds">Suppress notification sounds</sys:String>
+    <sys:String x:Key="Settings_PlayEndSound">Play sound when session ends</sys:String>
+
+    <!-- Language tab -->
+    <sys:String x:Key="Settings_ChooseLanguage">CHOOSE LANGUAGE</sys:String>
+    <sys:String x:Key="Lang_Vietnamese">Tiếng Việt</sys:String>
+    <sys:String x:Key="Lang_English">English</sys:String>
+
+    <!-- Toast buttons -->
+    <sys:String x:Key="Toast_Snooze10m">Snooze 10m</sys:String>
+    <sys:String x:Key="Toast_Snooze1h">Snooze 1h</sys:String>
+    <sys:String x:Key="Toast_Dismiss">Dismiss</sys:String>
+    <!-- Email section title -->
+    <sys:String x:Key="Page_Email">Email Notifications</sys:String>
+    <!-- Email: missing field labels -->
+    <sys:String x:Key="Settings_ApiKey">API Key</sys:String>
+
+    <!-- Status / messages -->
+    <sys:String x:Key="Msg_SettingsSaved">Settings saved.</sys:String>
+    <sys:String x:Key="Msg_TestEmailSent">Test email sent!</sys:String>
+    <sys:String x:Key="Msg_TestEmailFailed">Failed to send email. Check your settings.</sys:String>
+    <sys:String x:Key="Msg_BackupCreated">Backup created:</sys:String>
+    <sys:String x:Key="Msg_RestoreComplete">Restore complete. Restart recommended.</sys:String>
+    <sys:String x:Key="Msg_Saving">Saving…</sys:String>
+    <sys:String x:Key="Msg_Loading">Loading…</sys:String>
+    <!-- Export / Import -->
+    <sys:String x:Key="Export_Title">Export Tasks</sys:String>
+    <sys:String x:Key="Export_Exporting">Exporting…</sys:String>
+    <sys:String x:Key="Export_Success">Tasks exported to {0}</sys:String>
+    <sys:String x:Key="Import_Title">Import Tasks</sys:String>
+    <sys:String x:Key="Import_Importing">Importing…</sys:String>
+    <sys:String x:Key="Import_Success">{0} task(s) imported.</sys:String>
+    <sys:String x:Key="Import_MergePrompt">Choose how to import:&#x0a;  Yes = Merge with existing tasks (skip duplicates)&#x0a;  No  = Replace all existing tasks&#x0a;  Cancel = Abort import</sys:String>
+
+    <!-- Tray -->
+    <sys:String x:Key="Tray_Show">📋  Show TodoApp</sys:String>
+    <sys:String x:Key="Tray_QuickAdd">➕  Quick Add Task</sys:String>
+    <sys:String x:Key="Tray_Exit">✕  Exit</sys:String>
+    <sys:String x:Key="Tray_MinimizedMsg">App is running in the system tray. Click the icon to restore.</sys:String>
+
+    <!-- Priorities -->
+    <sys:String x:Key="Priority_Low">Low</sys:String>
+    <sys:String x:Key="Priority_Medium">Medium</sys:String>
+    <sys:String x:Key="Priority_High">High</sys:String>
+    <sys:String x:Key="Priority_Critical">Critical</sys:String>
+
+    <!-- Calendar page -->
+    <sys:String x:Key="Page_Calendar">Calendar</sys:String>
+    <sys:String x:Key="Cal_Today">Today</sys:String>
+    <sys:String x:Key="Cal_SelectDay">Select a day to view tasks</sys:String>
+    <sys:String x:Key="Cal_Tasks">tasks</sys:String>
+    <sys:String x:Key="Cal_NoDueTasks">No tasks due on this day</sys:String>
+
+    <!-- Task detail — Recurring -->
+    <sys:String x:Key="Task_Repeat">Repeat</sys:String>
+    <sys:String x:Key="Task_RepeatEvery">REPEAT EVERY</sys:String>
+    <sys:String x:Key="Recur_Daily">Daily</sys:String>
+    <sys:String x:Key="Recur_Weekly">Weekly</sys:String>
+    <sys:String x:Key="Recur_Monthly">Monthly</sys:String>
+    <sys:String x:Key="Recur_Custom">Custom</sys:String>
+    <sys:String x:Key="Recur_DayOfMonth">Day of month:</sys:String>
+    <sys:String x:Key="Recur_EveryNDays">Every</sys:String>
+    <sys:String x:Key="Recur_Days">days</sys:String>
+    <sys:String x:Key="Recur_EndDate">End date:</sys:String>
+    <sys:String x:Key="Recur_NoEndDate">No end date</sys:String>
+    <sys:String x:Key="Day_Mon">Mon</sys:String>
+    <sys:String x:Key="Day_Tue">Tue</sys:String>
+    <sys:String x:Key="Day_Wed">Wed</sys:String>
+    <sys:String x:Key="Day_Thu">Thu</sys:String>
+    <sys:String x:Key="Day_Fri">Fri</sys:String>
+    <sys:String x:Key="Day_Sat">Sat</sys:String>
+    <sys:String x:Key="Day_Sun">Sun</sys:String>
+
+    <!-- Labels -->
+    <sys:String x:Key="Page_Labels">Labels</sys:String>
+    <sys:String x:Key="Label_AddNew">ADD NEW LABEL</sys:String>
+    <sys:String x:Key="Label_NameHint">Label name…</sys:String>
+    <sys:String x:Key="Label_ChooseColor">Pick a colour:</sys:String>
+    <sys:String x:Key="Label_Empty">No labels yet — add one above</sys:String>
+    <sys:String x:Key="Label_Section">LABELS</sys:String>
+    <sys:String x:Key="Label_NoLabels">No labels yet. Create labels on the Labels page.</sys:String>
+
+    <!-- Goals -->
+    <sys:String x:Key="Goal_AddNew">+ Add Goal</sys:String>
+    <sys:String x:Key="Goal_AddFormTitle">ADD NEW GOAL</sys:String>
+    <sys:String x:Key="Goal_EditFormTitle">EDIT GOAL</sys:String>
+    <sys:String x:Key="Goal_TitleHint">Goal name…</sys:String>
+    <sys:String x:Key="Goal_DescHint">Description (optional)…</sys:String>
+    <sys:String x:Key="Goal_Days">days</sys:String>
+    <sys:String x:Key="Goal_CheckToday">Check in today</sys:String>
+    <sys:String x:Key="Goal_Done">Done</sys:String>
+    <sys:String x:Key="Goal_Empty">No goals yet</sys:String>
+    <sys:String x:Key="Goal_EmptyHint">Set a goal to start your journey!</sys:String>
+    <sys:String x:Key="Goal_CelebTitle">Congratulations! 🎉</sys:String>
+    <sys:String x:Key="Goal_CelebSubtitle">You've completed your goal. Amazing!</sys:String>
+    <sys:String x:Key="Goal_CelebClose">Awesome!</sys:String>
+
+    <!-- Watch Later -->
+    <sys:String x:Key="Page_WatchLater">Watch Later</sys:String>
+    <sys:String x:Key="WatchLater_UrlHint">URL</sys:String>
+    <sys:String x:Key="WatchLater_NotesHint">NOTES</sys:String>
+    <sys:String x:Key="WatchLater_Add">Add New</sys:String>
+    <sys:String x:Key="WatchLater_AddTitle">ADD WATCH-LATER ITEM</sys:String>
+    <sys:String x:Key="WatchLater_TitleHint">TITLE</sys:String>
+    <sys:String x:Key="WatchLater_ContentHint">URL or content to revisit…</sys:String>
+    <sys:String x:Key="WatchLater_Save">Save</sys:String>
+    <sys:String x:Key="WatchLater_Fetching">Fetching thumbnail…</sys:String>
+    <sys:String x:Key="WatchLater_Empty">No items yet</sys:String>
+    <sys:String x:Key="WatchLater_EmptyHint">Click "Add New" or tick "Watch Later?" in Quick Note</sys:String>
+
+    <!-- Quick Note -->
+    <sys:String x:Key="QuickNote_Title">Quick Note</sys:String>
+    <sys:String x:Key="QuickNote_Hint">Ctrl+Alt+Q · Enter saves · Esc closes</sys:String>
+    <sys:String x:Key="QuickNote_TitlePlaceholder">Title (optional)…</sys:String>
+    <sys:String x:Key="QuickNote_NotePlaceholder">Your quick note…</sys:String>
+    <sys:String x:Key="QuickNote_SaveBtn">Save to task list</sys:String>
+    <sys:String x:Key="QuickNote_WatchLaterSaveBtn">Save to Watch Later</sys:String>
+    <sys:String x:Key="QuickNote_WatchLater">Watch Later?</sys:String>
+    <sys:String x:Key="QuickNote_Preview">PREVIEW</sys:String>
+    <sys:String x:Key="QuickNote_EscHint">Press Esc to close</sys:String>
+
+    <!-- Quick Add -->
+    <sys:String x:Key="QuickAdd_Title">Quick Add Task</sys:String>
+    <sys:String x:Key="QuickAdd_Hint">Enter to save · Esc to close</sys:String>
+    <sys:String x:Key="QuickAdd_Placeholder">Task title…</sys:String>
+    <sys:String x:Key="QuickAdd_AIPlaceholder">Natural language, e.g. "Submit report tomorrow at 5pm"…</sys:String>
+    <sys:String x:Key="QuickAdd_Priority">PRIORITY</sys:String>
+    <sys:String x:Key="QuickAdd_Deadline">Deadline (optional)</sys:String>
+    <sys:String x:Key="QuickAdd_EscHint">Press Esc to cancel</sys:String>
+    <sys:String x:Key="QuickAdd_AddTask">Add</sys:String>
+    <sys:String x:Key="QuickAdd_AIParseBtn">✨ AI Parse</sys:String>
+    <sys:String x:Key="QuickAdd_AIParsing">Parsing…</sys:String>
+
+    <!-- AI Assistant -->
+    <sys:String x:Key="AI_TabTitle">AI Assistant</sys:String>
+    <sys:String x:Key="AI_EnableToggle">Enable AI features (Gemini)</sys:String>
+    <sys:String x:Key="AI_ApiKeyLabel">GEMINI API KEY</sys:String>
+    <sys:String x:Key="AI_ApiKeyHint">AIzaSy…</sys:String>
+    <sys:String x:Key="AI_ModelLabel">MODEL</sys:String>
+    <sys:String x:Key="AI_TestBtn">Test connection</sys:String>
+    <sys:String x:Key="AI_SuggestTagsBtn">🏷 Suggest tags</sys:String>
+    <sys:String x:Key="AI_SuggestingTags">Suggesting…</sys:String>
+    <sys:String x:Key="AI_TagsSuggested">Suggested tags:</sys:String>
+    <sys:String x:Key="AI_NotConfigured">AI not enabled. Configure at Settings → AI Assistant.</sys:String>
+    <sys:String x:Key="AI_GetKeyHint">Get a free API Key at aistudio.google.com</sys:String>
+
+</ResourceDictionary>

@@ -1,0 +1,128 @@
+<Application x:Class="TodoApp.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             ShutdownMode="OnExplicitShutdown">
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <materialDesign:BundledTheme BaseTheme="Light"
+                                             PrimaryColor="Pink"
+                                             SecondaryColor="Pink" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign2.Defaults.xaml" />
+                <ResourceDictionary Source="/Themes/Colors.xaml"        />
+                <ResourceDictionary Source="/Themes/Typography.xaml"    />
+                <ResourceDictionary Source="/Themes/ControlStyles.xaml" />
+                <ResourceDictionary Source="/Themes/Animations.xaml"    />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!--
+                ═══════════════════════════════════════════════════════════════
+                INLINE CRITICAL RESOURCES
+                Defined here (outside MergedDictionaries) so they ALWAYS win
+                over merged dicts and are guaranteed to resolve at runtime.
+                WPF rule: direct resources in a container dict take priority
+                over all merged dictionaries inside that container.
+                ═══════════════════════════════════════════════════════════════
+            -->
+
+            <!-- Converters -->
+            <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+
+            <!-- Pink palette brushes -->
+            <SolidColorBrush x:Key="Primary50Brush"         Color="#FCE4EC"/>
+            <SolidColorBrush x:Key="Primary100Brush"        Color="#F8BBD9"/>
+            <SolidColorBrush x:Key="Primary200Brush"        Color="#F48FB1"/>
+            <SolidColorBrush x:Key="Primary300Brush"        Color="#F06292"/>
+            <SolidColorBrush x:Key="PrimaryBrush"           Color="#E91E63"/>
+            <SolidColorBrush x:Key="PrimaryLightBrush"      Color="#F48FB1"/>
+            <SolidColorBrush x:Key="PrimaryDarkBrush"       Color="#C2185B"/>
+            <SolidColorBrush x:Key="AccentBrush"            Color="#FF4081"/>
+            <SolidColorBrush x:Key="AccentLightBrush"       Color="#FF80AB"/>
+
+            <!-- Surface / background brushes -->
+            <SolidColorBrush x:Key="AppBackground"          Color="#FFF5F9"/>
+            <SolidColorBrush x:Key="SidebarBackground"      Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="SurfaceBrush"           Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="CardBackgroundBrush"    Color="#FFFFFF"/>
+
+            <!-- Text brushes -->
+            <SolidColorBrush x:Key="TextPrimaryBrush"       Color="#212121"/>
+            <SolidColorBrush x:Key="TextSecondaryBrush"     Color="#757575"/>
+            <SolidColorBrush x:Key="TextHintBrush"          Color="#BDBDBD"/>
+            <SolidColorBrush x:Key="TextOnPrimaryBrush"     Color="#FFFFFF"/>
+
+            <!-- Semantic brushes -->
+            <SolidColorBrush x:Key="SuccessBrush"           Color="#4CAF50"/>
+            <SolidColorBrush x:Key="WarningBrush"           Color="#FF9800"/>
+            <SolidColorBrush x:Key="ErrorBrush"             Color="#F44336"/>
+            <SolidColorBrush x:Key="InfoBrush"              Color="#2196F3"/>
+
+            <!-- Priority brushes -->
+            <SolidColorBrush x:Key="PriorityLowBrush"       Color="#8BC34A"/>
+            <SolidColorBrush x:Key="PriorityMediumBrush"    Color="#FF9800"/>
+            <SolidColorBrush x:Key="PriorityHighBrush"      Color="#FF5722"/>
+            <SolidColorBrush x:Key="PriorityCriticalBrush"  Color="#F44336"/>
+
+            <!-- Structure brushes -->
+            <SolidColorBrush x:Key="DividerBrush"           Color="#EEEEEE"/>
+            <SolidColorBrush x:Key="BorderBrush2"           Color="#E0E0E0"/>
+            <SolidColorBrush x:Key="OverlayBrush"           Color="#88000000"/>
+
+            <!--
+                ═══════════════════════════════════════════════════════════════
+                INLINE STYLES
+                Sidebar nav button — must be here so it is always resolvable
+                regardless of whether ControlStyles.xaml loads.
+                ═══════════════════════════════════════════════════════════════
+            -->
+            <Style x:Key="NavButtonStyle" TargetType="Button">
+                <Setter Property="Background"              Value="Transparent"/>
+                <Setter Property="Foreground"              Value="{DynamicResource TextSecondaryBrush}"/>
+                <Setter Property="BorderThickness"         Value="0"/>
+                <Setter Property="Padding"                 Value="12,10"/>
+                <Setter Property="FontSize"                Value="14"/>
+                <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                <Setter Property="Cursor"                  Value="Hand"/>
+                <Setter Property="FocusVisualStyle"        Value="{x:Null}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="Bd"
+                                    Background="{TemplateBinding Background}"
+                                    CornerRadius="8"
+                                    Padding="{TemplateBinding Padding}">
+                                <ContentPresenter
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Bd" Property="Background"
+                                            Value="{DynamicResource Primary50Brush}"/>
+                                    <Setter Property="Foreground"
+                                            Value="{DynamicResource PrimaryBrush}"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="Bd" Property="Background"
+                                            Value="{DynamicResource Primary100Brush}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!-- Active nav button (currently selected page) -->
+            <Style x:Key="ActiveNavButton" TargetType="Button"
+                   BasedOn="{StaticResource NavButtonStyle}">
+                <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}"/>
+                <Setter Property="Background" Value="{DynamicResource Primary50Brush}"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+            </Style>
+
+        </ResourceDictionary>
+    </Application.Resources>
+
+</Application>

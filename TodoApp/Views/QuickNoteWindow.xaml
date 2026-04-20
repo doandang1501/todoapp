@@ -1,0 +1,348 @@
+<Window x:Class="TodoApp.Views.QuickNoteWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:controls="clr-namespace:TodoApp.Controls"
+        xmlns:conv="clr-namespace:TodoApp.Converters"
+        Title="Quick Note"
+        SizeToContent="Height"
+        Width="460"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Topmost="True"
+        ShowInTaskbar="False"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        FontFamily="{materialDesign:MaterialDesignFont}"
+        Icon="pack://application:,,,/Assets/Icons/Icon-remove-bg.png">
+
+    <Window.Resources>
+        <conv:HexToBrushConverter x:Key="HexToBrush"/>
+
+        <!-- Priority chip style (same as QuickAdd) -->
+        <Style x:Key="QNChipStyle" TargetType="RadioButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border x:Name="Bd" CornerRadius="5" Padding="10,5"
+                                Background="Transparent"
+                                BorderBrush="{DynamicResource DividerBrush}"
+                                BorderThickness="1.5" Cursor="Hand">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="Bd" Property="Background"
+                                        Value="{DynamicResource PrimaryBrush}"/>
+                                <Setter TargetName="Bd" Property="BorderBrush"
+                                        Value="{DynamicResource PrimaryBrush}"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="BorderBrush"
+                                        Value="{DynamicResource PrimaryBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="FontSize"   Value="12"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        </Style>
+
+        <!-- Markdown format button -->
+        <Style x:Key="QNFmtBtnStyle" TargetType="Button">
+            <Setter Property="Width"            Value="28"/>
+            <Setter Property="Height"           Value="24"/>
+            <Setter Property="Padding"          Value="0"/>
+            <Setter Property="Background"       Value="Transparent"/>
+            <Setter Property="BorderThickness"  Value="0"/>
+            <Setter Property="Foreground"       Value="{DynamicResource TextSecondaryBrush}"/>
+            <Setter Property="Cursor"           Value="Hand"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Margin"           Value="1,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" CornerRadius="4"
+                                Background="{TemplateBinding Background}" Padding="2">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background"
+                                        Value="{DynamicResource Primary50Brush}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Bd" Property="Background"
+                                        Value="{DynamicResource Primary100Brush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <!-- Drop shadow container -->
+    <Border Margin="12" CornerRadius="12"
+            Background="{DynamicResource SurfaceBrush}">
+        <Border.Effect>
+            <DropShadowEffect Color="Black" Opacity="0.30"
+                              BlurRadius="24" ShadowDepth="4" Direction="270"/>
+        </Border.Effect>
+
+        <StackPanel>
+            <!-- ── Header ───────────────────────────────────────────────── -->
+            <Border Background="{DynamicResource PrimaryBrush}"
+                    CornerRadius="12,12,0,0"
+                    Padding="16,12"
+                    MouseLeftButtonDown="OnHeaderMouseDown">
+                <Grid>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <materialDesign:PackIcon Kind="NoteEditOutline" Width="16" Height="16"
+                                                 Foreground="White" VerticalAlignment="Center"/>
+                        <TextBlock Text="{DynamicResource QuickNote_Title}"
+                                   Foreground="White" FontSize="14" FontWeight="Bold"
+                                   Margin="8,0,0,0" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <!-- hint removed -->
+                </Grid>
+            </Border>
+
+            <!-- ── Form body ─────────────────────────────────────────────── -->
+            <StackPanel Margin="16,14,16,4">
+
+                <!-- Optional title -->
+                <TextBox x:Name="TitleBox"
+                         Text="{Binding TitleText, UpdateSourceTrigger=PropertyChanged}"
+                         FontSize="14"
+                         Style="{DynamicResource RoundedTextBoxStyle}"
+                         materialDesign:HintAssist.Hint="{DynamicResource QuickNote_TitlePlaceholder}"
+                         Margin="0,0,0,10">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Escape" Command="{Binding CancelCommand}"/>
+                    </TextBox.InputBindings>
+                </TextBox>
+
+                <!-- Note text area -->
+                <TextBox x:Name="NoteBox"
+                         Text="{Binding NoteText, UpdateSourceTrigger=PropertyChanged}"
+                         Style="{DynamicResource RoundedTextBoxStyle}"
+                         AcceptsReturn="True"
+                         Height="100" TextWrapping="Wrap"
+                         VerticalScrollBarVisibility="Auto"
+                         materialDesign:HintAssist.Hint="{DynamicResource QuickNote_NotePlaceholder}"
+                         PreviewKeyDown="NoteBox_PreviewKeyDown"
+                         Margin="0,0,0,0">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Escape" Command="{Binding CancelCommand}"/>
+                    </TextBox.InputBindings>
+                </TextBox>
+
+                <!-- ── Markdown format toolbar ─────────────────────────── -->
+                <Border CornerRadius="0,0,6,6"
+                        Background="{DynamicResource AppBackground}"
+                        BorderBrush="{DynamicResource DividerBrush}"
+                        BorderThickness="1,0,1,1"
+                        Padding="4,2"
+                        Margin="0,0,0,12">
+                    <StackPanel Orientation="Horizontal">
+                        <Button Style="{StaticResource QNFmtBtnStyle}"
+                                Click="OnFmtBold" ToolTip="Bold  Ctrl+B">
+                            <TextBlock Text="B" FontWeight="Bold" FontSize="12"/>
+                        </Button>
+                        <Button Style="{StaticResource QNFmtBtnStyle}"
+                                Click="OnFmtItalic" ToolTip="Italic  Ctrl+I">
+                            <TextBlock Text="I" FontStyle="Italic" FontSize="12"/>
+                        </Button>
+                        <Button Style="{StaticResource QNFmtBtnStyle}"
+                                Click="OnFmtUnderline" ToolTip="Underline  Ctrl+U">
+                            <TextBlock Text="U" TextDecorations="Underline" FontSize="12"/>
+                        </Button>
+                        <Button Style="{StaticResource QNFmtBtnStyle}"
+                                Click="OnFmtCode" ToolTip="Code  `text`">
+                            <TextBlock Text="&lt;/&gt;" FontFamily="Consolas" FontSize="10"/>
+                        </Button>
+                        <Rectangle Width="1" Fill="{DynamicResource DividerBrush}"
+                                   Margin="4,3" VerticalAlignment="Stretch"/>
+                        <Button Style="{StaticResource QNFmtBtnStyle}"
+                                Click="OnFmtList" ToolTip="Bullet list  - item">
+                            <materialDesign:PackIcon Kind="FormatListBulleted" Width="12" Height="12"/>
+                        </Button>
+                        <Button Style="{StaticResource QNFmtBtnStyle}"
+                                Click="OnFmtLink" ToolTip="Link  [text](url)">
+                            <materialDesign:PackIcon Kind="LinkVariant" Width="12" Height="12"/>
+                        </Button>
+                    </StackPanel>
+                </Border>
+
+                <!-- ── Markdown preview ───────────────────────────────── -->
+                <TextBlock Text="{DynamicResource QuickNote_Preview}"
+                           FontSize="10" FontWeight="Bold"
+                           Foreground="{DynamicResource TextSecondaryBrush}"
+                           Margin="0,4,0,4"/>
+                <Border CornerRadius="6"
+                        Background="{DynamicResource AppBackground}"
+                        BorderBrush="{DynamicResource DividerBrush}"
+                        BorderThickness="1"
+                        MinHeight="48" MaxHeight="100"
+                        Margin="0,0,0,12">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="10,7">
+                        <controls:MarkdownTextBlock MarkdownText="{Binding NoteText}"
+                                                    TextWrapping="Wrap"
+                                                    FontSize="13"
+                                                    Foreground="{DynamicResource TextPrimaryBrush}"/>
+                    </ScrollViewer>
+                </Border>
+
+                <!-- ── Watch Later checkbox ──────────────────────────────── -->
+                <CheckBox Content="{DynamicResource QuickNote_WatchLater}"
+                          IsChecked="{Binding IsWatchLater}"
+                          Margin="0,0,0,10"
+                          FontSize="12"
+                          Foreground="{DynamicResource TextPrimaryBrush}"/>
+
+                <!-- ── Label picker ───────────────────────────────────── -->
+                <TextBlock Text="{DynamicResource Label_Section}"
+                           FontSize="10" FontWeight="Bold"
+                           Foreground="{DynamicResource TextSecondaryBrush}"
+                           Margin="0,0,0,4"/>
+                <StackPanel Margin="0,0,0,10">
+                    <TextBlock Text="{DynamicResource Label_NoLabels}"
+                               FontSize="11" FontStyle="Italic"
+                               Foreground="{DynamicResource TextSecondaryBrush}"
+                               Margin="0,0,0,4">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding LabelChips.Count}" Value="0">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <ItemsControl ItemsSource="{Binding LabelChips}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border CornerRadius="10" Padding="8,3"
+                                        Margin="0,0,5,5" BorderThickness="1.5" Cursor="Hand">
+                                    <Border.InputBindings>
+                                        <MouseBinding MouseAction="LeftClick"
+                                                      Command="{Binding DataContext.ToggleLabelCommand,
+                                                          RelativeSource={RelativeSource AncestorType=Window}}"
+                                                      CommandParameter="{Binding}"/>
+                                    </Border.InputBindings>
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="BorderBrush"
+                                                    Value="{Binding Label.Color, Converter={StaticResource HexToBrush}}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                    <Setter Property="Background"
+                                                            Value="{Binding Label.Color, Converter={StaticResource HexToBrush}}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <TextBlock Text="{Binding Label.Name}" FontSize="11">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Foreground"
+                                                        Value="{Binding Label.Color, Converter={StaticResource HexToBrush}}"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                        <Setter Property="Foreground" Value="White"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+
+                <!-- Priority chips -->
+                <TextBlock Text="ĐỘ ƯU TIÊN"
+                           FontSize="10" FontWeight="Bold"
+                           Foreground="{DynamicResource TextSecondaryBrush}"
+                           Margin="0,0,0,6"/>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                    <RadioButton Content="{DynamicResource Priority_Low}"
+                                 Style="{StaticResource QNChipStyle}"
+                                 IsChecked="{Binding PrioLow}"
+                                 Margin="0,0,6,0"/>
+                    <RadioButton Content="{DynamicResource Priority_Medium}"
+                                 Style="{StaticResource QNChipStyle}"
+                                 IsChecked="{Binding PrioMedium}"
+                                 Margin="0,0,6,0"/>
+                    <RadioButton Content="{DynamicResource Priority_High}"
+                                 Style="{StaticResource QNChipStyle}"
+                                 IsChecked="{Binding PrioHigh}"
+                                 Margin="0,0,6,0"/>
+                    <RadioButton Content="{DynamicResource Priority_Critical}"
+                                 Style="{StaticResource QNChipStyle}"
+                                 IsChecked="{Binding PrioCritical}"/>
+                </StackPanel>
+
+            </StackPanel>
+
+            <!-- ── Footer ────────────────────────────────────────────────── -->
+            <Border BorderThickness="0,1,0,0"
+                    BorderBrush="{DynamicResource DividerBrush}"
+                    Padding="16,10"
+                    CornerRadius="0,0,12,12"
+                    Background="{DynamicResource AppBackground}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="{DynamicResource Btn_Cancel}"
+                            Style="{DynamicResource GhostButtonStyle}"
+                            Command="{Binding CancelCommand}"
+                            Padding="12,7" Margin="0,0,8,0"/>
+                    <!-- Normal save (task list) — hidden when IsWatchLater = true -->
+                    <Button Command="{Binding SaveCommand}"
+                            IsEnabled="{Binding CanSave}"
+                            Padding="14,7">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}">
+                                <Setter Property="Content" Value="{DynamicResource QuickNote_SaveBtn}"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsWatchLater}" Value="True">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <!-- Watch Later save — shown only when IsWatchLater = true -->
+                    <Button Command="{Binding SaveCommand}"
+                            IsEnabled="{Binding CanSave}"
+                            Padding="14,7">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}">
+                                <Setter Property="Content" Value="{DynamicResource QuickNote_WatchLaterSaveBtn}"/>
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsWatchLater}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </Border>
+</Window>

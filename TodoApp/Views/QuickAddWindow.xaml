@@ -1,0 +1,172 @@
+<Window x:Class="TodoApp.Views.QuickAddWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Quick Add"
+        SizeToContent="Height"
+        Width="440"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Topmost="True"
+        ShowInTaskbar="False"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        FontFamily="{materialDesign:MaterialDesignFont}">
+
+    <Window.Resources>
+        <Style x:Key="QAChipStyle" TargetType="RadioButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border x:Name="Bd" CornerRadius="5" Padding="10,5"
+                                Background="Transparent"
+                                BorderBrush="{DynamicResource DividerBrush}"
+                                BorderThickness="1.5" Cursor="Hand">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="Bd" Property="Background"
+                                        Value="{DynamicResource PrimaryBrush}"/>
+                                <Setter TargetName="Bd" Property="BorderBrush"
+                                        Value="{DynamicResource PrimaryBrush}"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="BorderBrush"
+                                        Value="{DynamicResource PrimaryBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="FontSize"   Value="12"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        </Style>
+    </Window.Resources>
+
+    <!-- Drop shadow container -->
+    <Border Margin="12"
+            CornerRadius="12"
+            Background="{DynamicResource SurfaceBrush}">
+        <Border.Effect>
+            <DropShadowEffect Color="Black" Opacity="0.30"
+                              BlurRadius="24" ShadowDepth="4" Direction="270"/>
+        </Border.Effect>
+
+        <StackPanel>
+            <!-- ── Header bar ────────────────────────────────────────────── -->
+            <Border Background="{DynamicResource PrimaryBrush}"
+                    CornerRadius="12,12,0,0"
+                    Padding="16,12">
+                <Grid>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <materialDesign:PackIcon Kind="Flash" Width="16" Height="16"
+                                                 Foreground="White" VerticalAlignment="Center"/>
+                        <TextBlock Text="{DynamicResource QuickAdd_Title}"
+                                   Foreground="White" FontSize="14" FontWeight="Bold"
+                                   Margin="8,0,0,0" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <TextBlock Text="{DynamicResource QuickAdd_Hint}"
+                               Foreground="#AAFFFFFF" FontSize="11"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+
+            <!-- ── Form body ─────────────────────────────────────────────── -->
+            <StackPanel Margin="16,14,16,4">
+
+                <!-- Title input (auto-focused) -->
+                <TextBox x:Name="TitleBox"
+                         Text="{Binding TitleText, UpdateSourceTrigger=PropertyChanged}"
+                         FontSize="15"
+                         Style="{DynamicResource RoundedTextBoxStyle}"
+                         materialDesign:HintAssist.Hint="{DynamicResource QuickAdd_Placeholder}"
+                         Margin="0,0,0,12">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Return"  Command="{Binding SaveCommand}"/>
+                        <KeyBinding Key="Escape"  Command="{Binding CancelCommand}"/>
+                    </TextBox.InputBindings>
+                </TextBox>
+
+                <!-- Priority chips -->
+                <TextBlock Text="{DynamicResource QuickAdd_Priority}"
+                           FontSize="10" FontWeight="Bold"
+                           Foreground="{DynamicResource TextSecondaryBrush}"
+                           Margin="0,0,0,6"/>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                    <RadioButton Content="{DynamicResource Priority_Low}"
+                                 Style="{StaticResource QAChipStyle}"
+                                 IsChecked="{Binding PrioLow}"
+                                 Margin="0,0,6,0"/>
+                    <RadioButton Content="{DynamicResource Priority_Medium}"
+                                 Style="{StaticResource QAChipStyle}"
+                                 IsChecked="{Binding PrioMedium}"
+                                 Margin="0,0,6,0"/>
+                    <RadioButton Content="{DynamicResource Priority_High}"
+                                 Style="{StaticResource QAChipStyle}"
+                                 IsChecked="{Binding PrioHigh}"
+                                 Margin="0,0,6,0"/>
+                    <RadioButton Content="{DynamicResource Priority_Critical}"
+                                 Style="{StaticResource QAChipStyle}"
+                                 IsChecked="{Binding PrioCritical}"/>
+                </StackPanel>
+
+                <!-- Optional deadline (compact) -->
+                <Grid Margin="0,0,0,14">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="8"/>
+                        <ColumnDefinition Width="90"/>
+                    </Grid.ColumnDefinitions>
+                    <DatePicker Grid.Column="0"
+                                SelectedDate="{Binding DeadlineDate}"
+                                Style="{DynamicResource MaterialDesignDatePicker}"
+                                materialDesign:HintAssist.Hint="{DynamicResource QuickAdd_Deadline}"
+                                Foreground="{DynamicResource TextPrimaryBrush}"/>
+                    <TextBox Grid.Column="2"
+                             Text="{Binding DeadlineTime, UpdateSourceTrigger=PropertyChanged}"
+                             Style="{DynamicResource RoundedTextBoxStyle}"
+                             materialDesign:HintAssist.Hint="HH:mm"
+                             FontFamily="Consolas">
+                        <TextBox.InputBindings>
+                            <KeyBinding Key="Return"  Command="{Binding SaveCommand}"/>
+                            <KeyBinding Key="Escape"  Command="{Binding CancelCommand}"/>
+                        </TextBox.InputBindings>
+                    </TextBox>
+                </Grid>
+
+            </StackPanel>
+
+            <!-- ── Footer ────────────────────────────────────────────────── -->
+            <Border BorderThickness="0,1,0,0"
+                    BorderBrush="{DynamicResource DividerBrush}"
+                    Padding="16,10"
+                    CornerRadius="0,0,12,12"
+                    Background="{DynamicResource AppBackground}">
+                <Grid>
+                    <TextBlock Text="{DynamicResource QuickAdd_EscHint}"
+                               FontSize="11"
+                               Foreground="{DynamicResource TextSecondaryBrush}"
+                               VerticalAlignment="Center"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="{DynamicResource Btn_Cancel}"
+                                Style="{DynamicResource GhostButtonStyle}"
+                                Command="{Binding CancelCommand}"
+                                Padding="12,7"
+                                Margin="0,0,8,0"/>
+                        <Button Content="{DynamicResource QuickAdd_AddTask}"
+                                Style="{DynamicResource PrimaryButtonStyle}"
+                                Command="{Binding SaveCommand}"
+                                IsEnabled="{Binding CanSave}"
+                                Padding="14,7"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </StackPanel>
+    </Border>
+</Window>

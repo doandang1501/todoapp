@@ -1,0 +1,82 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>TodoApp</AssemblyName>
+    <RootNamespace>TodoApp</RootNamespace>
+    <!-- No .ico file; window icons set via Icon= in XAML using the embedded PNG -->
+    <Version>1.0.0</Version>
+    <LangVersion>latest</LangVersion>
+    <Platforms>x64</Platforms>
+    <PlatformTarget>x64</PlatformTarget>
+    <Optimize Condition="'$(Configuration)' == 'Release'">true</Optimize>
+    <DebugType Condition="'$(Configuration)' == 'Release'">embedded</DebugType>
+    <!-- Publish as self-contained single .exe -->
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>false</SelfContained>
+    <!-- Suppress generated file warnings from CommunityToolkit.Mvvm -->
+    <NoWarn>$(NoWarn);CS8618</NoWarn>
+    <!-- Dùng custom Main() trong Program.cs thay vì auto-generated từ App.xaml -->
+    <StartupObject>TodoApp.Program</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- MVVM: source generators cho [ObservableProperty] và [RelayCommand] -->
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+
+    <!-- DI + Hosting + Background Services -->
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1" />
+
+    <!-- Audio: hỗ trợ mp3 + wav -->
+    <PackageReference Include="NAudio" Version="2.2.1" />
+
+    <!--
+      Kanban Drag-and-Drop:
+      KHÔNG dùng GongSolutions.WPF.DragDrop (chỉ có version 1.0.0.1 trên NuGet,
+      version mới bị unlisted). Thay bằng WPF built-in drag-drop API thuần +
+      Microsoft.Xaml.Behaviors.Wpf để viết clean behavior.
+    -->
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.77" />
+
+    <!-- Material Design in XAML: controls, icons, animations -->
+    <PackageReference Include="MaterialDesignThemes" Version="5.1.0" />
+    <PackageReference Include="MaterialDesignColors" Version="3.1.0" />
+
+    <!-- System Tray icon (đây là version stable, hỗ trợ .NET 8 WPF) -->
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
+
+    <!-- Global Hotkeys -->
+    <PackageReference Include="NHotkey.Wpf" Version="3.0.0" />
+
+    <!--
+      Charts (Statistics page - Part 12):
+      OxyPlot ổn định hơn LiveCharts cho production.
+      LiveChartsCore 2.0.0-rc2 là pre-release và hay bị version mismatch.
+    -->
+    <PackageReference Include="OxyPlot.Wpf" Version="2.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Embed assets as resources -->
+    <Resource Include="Assets\**\*.*"
+              Exclude="Assets\**\*.ico" />
+
+    <!-- Language resource dictionaries -->
+    <Resource Include="Languages\vi.xaml"/>
+    <Resource Include="Languages\en.xaml"/>
+    <None Update="Assets\Icons\app.ico" />
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,107 @@
+<Window x:Class="TodoApp.Views.StickyNoteWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        ShowInTaskbar="False"
+        ResizeMode="CanResizeWithGrip"
+        MinWidth="180" MinHeight="140"
+        TextElement.FontSize="13"
+        FontFamily="{materialDesign:MaterialDesignFont}">
+
+    <Window.Effect>
+        <DropShadowEffect Color="Black" Opacity="0.18"
+                          BlurRadius="14" ShadowDepth="3" Direction="270"/>
+    </Window.Effect>
+
+    <Border CornerRadius="8" x:Name="RootBorder">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="36"/>   <!-- Drag handle + toolbar -->
+                <RowDefinition Height="*"/>    <!-- Content -->
+            </Grid.RowDefinitions>
+
+            <!-- ── Title bar / drag handle ─────────────────────────────── -->
+            <Border Grid.Row="0"
+                    x:Name="DragHandle"
+                    CornerRadius="8,8,0,0"
+                    MouseLeftButtonDown="OnDragHandleMouseDown">
+                <Border.Background>
+                    <SolidColorBrush x:Name="HeaderBrush" Color="#F9A825"/>
+                </Border.Background>
+                <Grid Margin="8,0">
+                    <materialDesign:PackIcon Kind="NoteText"
+                                             Width="16" Height="16"
+                                             Foreground="#5D4037"
+                                             VerticalAlignment="Center"
+                                             HorizontalAlignment="Left"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
+                                VerticalAlignment="Center">
+                        <!-- Colour picker trigger -->
+                        <Button x:Name="ColourBtn"
+                                Style="{DynamicResource IconButtonStyle}"
+                                Width="22" Height="22"
+                                ToolTip="Change colour"
+                                Click="OnColourBtnClick">
+                            <materialDesign:PackIcon Kind="Palette" Width="13" Height="13"
+                                                     Foreground="#5D4037"/>
+                        </Button>
+                        <!-- Delete -->
+                        <Button Style="{DynamicResource IconButtonStyle}"
+                                Width="22" Height="22"
+                                ToolTip="Delete note"
+                                Click="OnDeleteClick">
+                            <materialDesign:PackIcon Kind="Close" Width="13" Height="13"
+                                                     Foreground="#5D4037"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Colour picker popup -->
+            <Popup x:Name="ColourPopup"
+                   PlacementTarget="{Binding ElementName=ColourBtn}"
+                   Placement="Bottom"
+                   StaysOpen="False">
+                <Border Background="{DynamicResource SurfaceBrush}"
+                        BorderBrush="{DynamicResource DividerBrush}"
+                        BorderThickness="1" CornerRadius="6" Padding="8">
+                    <StackPanel Orientation="Horizontal">
+                        <Border Width="24" Height="24" CornerRadius="12" Background="#FFF9C4"
+                                Margin="2" Cursor="Hand" ToolTip="Yellow"
+                                MouseLeftButtonDown="OnColourSelected" Tag="#FFF9C4"/>
+                        <Border Width="24" Height="24" CornerRadius="12" Background="#F8BBD0"
+                                Margin="2" Cursor="Hand" ToolTip="Pink"
+                                MouseLeftButtonDown="OnColourSelected" Tag="#F8BBD0"/>
+                        <Border Width="24" Height="24" CornerRadius="12" Background="#C8E6C9"
+                                Margin="2" Cursor="Hand" ToolTip="Green"
+                                MouseLeftButtonDown="OnColourSelected" Tag="#C8E6C9"/>
+                        <Border Width="24" Height="24" CornerRadius="12" Background="#B3E5FC"
+                                Margin="2" Cursor="Hand" ToolTip="Blue"
+                                MouseLeftButtonDown="OnColourSelected" Tag="#B3E5FC"/>
+                        <Border Width="24" Height="24" CornerRadius="12" Background="#EDE7F6"
+                                Margin="2" Cursor="Hand" ToolTip="Purple"
+                                MouseLeftButtonDown="OnColourSelected" Tag="#EDE7F6"/>
+                        <Border Width="24" Height="24" CornerRadius="12" Background="#FFE0B2"
+                                Margin="2" Cursor="Hand" ToolTip="Orange"
+                                MouseLeftButtonDown="OnColourSelected" Tag="#FFE0B2"/>
+                    </StackPanel>
+                </Border>
+            </Popup>
+
+            <!-- ── Note text area ─────────────────────────────────────── -->
+            <TextBox Grid.Row="1"
+                     x:Name="ContentBox"
+                     AcceptsReturn="True"
+                     TextWrapping="Wrap"
+                     VerticalScrollBarVisibility="Auto"
+                     BorderThickness="0"
+                     Background="Transparent"
+                     FontSize="13"
+                     Padding="10,8"
+                     VerticalAlignment="Stretch"
+                     TextChanged="OnTextChanged"/>
+        </Grid>
+    </Border>
+</Window>

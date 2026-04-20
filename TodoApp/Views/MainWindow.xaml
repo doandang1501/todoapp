@@ -1,0 +1,476 @@
+<Window x:Class="TodoApp.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
+        xmlns:vm="clr-namespace:TodoApp.ViewModels"
+        xmlns:views="clr-namespace:TodoApp.Views"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
+        Title="TodoApp"
+        MinWidth="900" MinHeight="600"
+        Background="{DynamicResource AppBackground}"
+        TextElement.Foreground="{DynamicResource TextPrimaryBrush}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        FontFamily="{materialDesign:MaterialDesignFont}"
+        Width="1200" Height="750"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        AllowsTransparency="False">
+
+    <Window.Icon>
+        <BitmapImage UriSource="pack://application:,,,/Assets/Icons/Icon-remove-bg.png"/>
+    </Window.Icon>
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="44"
+                      ResizeBorderThickness="5"
+                      GlassFrameThickness="0,0,0,1"
+                      CornerRadius="0"
+                      UseAeroCaptionButtons="False"/>
+    </WindowChrome.WindowChrome>
+
+
+    <!-- ═══ Root grid: titlebar | (sidebar | content) ══════════════════════ -->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="44"/>   <!-- Custom title bar -->
+            <RowDefinition Height="*"/>    <!-- Main content -->
+        </Grid.RowDefinitions>
+
+        <!-- ── Custom Title Bar ─────────────────────────────────────────── -->
+        <Border Grid.Row="0"
+                Background="{DynamicResource PrimaryBrush}"
+                WindowChrome.IsHitTestVisibleInChrome="False">
+            <Grid Margin="12,0">
+                <!-- App title (drag region) -->
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="CheckCircle"
+                                             Width="18" Height="18"
+                                             Foreground="White"
+                                             VerticalAlignment="Center"/>
+                    <TextBlock Text="TodoApp"
+                               FontSize="14" FontWeight="Bold"
+                               Foreground="White"
+                               Margin="8,0,0,0"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <!-- Window controls (right) -->
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center">
+                    <!-- Minimize -->
+                    <Button Width="44" Height="44"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            WindowChrome.IsHitTestVisibleInChrome="True"
+                            Click="OnMinimizeClick"
+                            FocusVisualStyle="{x:Null}">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="Bd" Background="{TemplateBinding Background}">
+                                    <materialDesign:PackIcon Kind="WindowMinimize"
+                                                             Width="14" Height="14"
+                                                             Foreground="White"
+                                                             HorizontalAlignment="Center"
+                                                             VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="Bd" Property="Background" Value="#33FFFFFF"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <!-- Maximize/Restore -->
+                    <Button Width="44" Height="44"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            WindowChrome.IsHitTestVisibleInChrome="True"
+                            Click="OnMaximizeClick"
+                            FocusVisualStyle="{x:Null}">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="Bd" Background="{TemplateBinding Background}">
+                                    <materialDesign:PackIcon x:Name="Icon" Kind="WindowMaximize"
+                                                             Width="14" Height="14"
+                                                             Foreground="White"
+                                                             HorizontalAlignment="Center"
+                                                             VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="Bd" Property="Background" Value="#33FFFFFF"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <!-- Close -->
+                    <Button Width="44" Height="44"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            WindowChrome.IsHitTestVisibleInChrome="True"
+                            Click="OnCloseClick"
+                            FocusVisualStyle="{x:Null}">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="Bd" Background="{TemplateBinding Background}">
+                                    <materialDesign:PackIcon Kind="WindowClose"
+                                                             Width="14" Height="14"
+                                                             Foreground="White"
+                                                             HorizontalAlignment="Center"
+                                                             VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="Bd" Property="Background" Value="#CCE53935"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- ═══ Row 1: sidebar | content ════════════════════════════════════ -->
+        <Grid Grid.Row="1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- ── Sidebar ────────────────────────────────────────────────────── -->
+        <Border Grid.Column="0"
+                Background="{DynamicResource SidebarBackground}"
+                BorderThickness="0,0,1,0"
+                BorderBrush="{DynamicResource DividerBrush}">
+            <DockPanel>
+
+                <!-- App logo / title -->
+                <StackPanel DockPanel.Dock="Top" Margin="20,24,20,16">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="CheckCircle"
+                                                 Width="28" Height="28"
+                                                 Foreground="{DynamicResource PrimaryBrush}"
+                                                 VerticalAlignment="Center"/>
+                        <TextBlock Text="TodoApp"
+                                   FontSize="20" FontWeight="Bold"
+                                   Foreground="{DynamicResource PrimaryBrush}"
+                                   Margin="8,0,0,0"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <TextBlock Text="{DynamicResource App_Subtitle}"
+                               FontSize="11"
+                               Foreground="{DynamicResource TextSecondaryBrush}"
+                               Margin="36,2,0,0"/>
+                </StackPanel>
+
+                <Separator DockPanel.Dock="Top"
+                           Background="{DynamicResource DividerBrush}"
+                           Margin="16,0"/>
+
+                <!-- Navigation -->
+                <StackPanel DockPanel.Dock="Top" Margin="12,12,12,0">
+
+                    <TextBlock Text="{DynamicResource Nav_Views}"
+                               FontSize="10" FontWeight="Bold"
+                               Foreground="{DynamicResource TextSecondaryBrush}"
+                               Margin="8,8,0,6"/>
+
+                    <Button Style="{DynamicResource NavButtonStyle}"
+                            Command="{Binding NavigateToCommand}"
+                            CommandParameter="List"
+                            Margin="0,2">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="FormatListChecks"
+                                                     Width="18" Height="18"
+                                                     VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource Nav_TaskList}" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Style="{DynamicResource NavButtonStyle}"
+                            Command="{Binding NavigateToCommand}"
+                            CommandParameter="Kanban"
+                            Margin="0,2">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="ViewColumn"
+                                                     Width="18" Height="18"
+                                                     VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource Nav_KanbanBoard}" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Style="{DynamicResource NavButtonStyle}"
+                            Command="{Binding NavigateToCommand}"
+                            CommandParameter="Statistics"
+                            Margin="0,2">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="ChartBar"
+                                                     Width="18" Height="18"
+                                                     VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource Nav_Statistics}" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Style="{DynamicResource NavButtonStyle}"
+                            Command="{Binding NavigateToCommand}"
+                            CommandParameter="WatchLater"
+                            Margin="0,2">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Bookmark"
+                                                     Width="18" Height="18"
+                                                     VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource Nav_WatchLater}" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Style="{DynamicResource NavButtonStyle}"
+                            Command="{Binding NavigateToCommand}"
+                            CommandParameter="Labels"
+                            Margin="0,2">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Label"
+                                                     Width="18" Height="18"
+                                                     VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource Nav_Labels}" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Separator Background="{DynamicResource DividerBrush}" Margin="8,12"/>
+
+                    <TextBlock Text="{DynamicResource Nav_Tools}"
+                               FontSize="10" FontWeight="Bold"
+                               Foreground="{DynamicResource TextSecondaryBrush}"
+                               Margin="8,0,0,6"/>
+
+                    <Button Style="{DynamicResource NavButtonStyle}"
+                            Command="{Binding NavigateToCommand}"
+                            CommandParameter="Goals"
+                            Margin="0,2">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Flag"
+                                                     Width="18" Height="18"
+                                                     VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource Nav_Goals}" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Style="{DynamicResource NavButtonStyle}"
+                            Command="{Binding NavigateToCommand}"
+                            CommandParameter="Calendar"
+                            Margin="0,2">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="CalendarMonth"
+                                                     Width="18" Height="18"
+                                                     VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource Nav_Calendar}" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Style="{DynamicResource NavButtonStyle}"
+                            Command="{Binding NavigateToCommand}"
+                            CommandParameter="StickyNotes"
+                            Margin="0,2">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="NoteText"
+                                                     Width="18" Height="18"
+                                                     VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource Nav_StickyNotes}" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <!-- Focus Mode button + live countdown display -->
+                    <Button Style="{DynamicResource NavButtonStyle}"
+                            Command="{Binding ToggleFocusModeCommand}"
+                            Margin="0,2">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="TimerSand"
+                                                     Width="18" Height="18"
+                                                     VerticalAlignment="Center">
+                                <materialDesign:PackIcon.Style>
+                                    <Style TargetType="materialDesign:PackIcon">
+                                        <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsFocusModeActive}" Value="True">
+                                                <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </materialDesign:PackIcon.Style>
+                            </materialDesign:PackIcon>
+                            <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
+                                <!-- OFF label -->
+                                <TextBlock Text="{DynamicResource Nav_FocusMode}" FontSize="14">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsFocusModeActive}" Value="True">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                                <!-- ON label -->
+                                <TextBlock Text="{DynamicResource Nav_FocusOn}" FontSize="14"
+                                           FontWeight="SemiBold"
+                                           Foreground="{DynamicResource PrimaryBrush}">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsFocusModeActive}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                                <!-- Countdown row — only visible when focus mode is active -->
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel.Style>
+                                        <Style TargetType="StackPanel">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsFocusModeActive}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </StackPanel.Style>
+                                    <materialDesign:PackIcon Kind="Timer"
+                                                             Width="12" Height="12"
+                                                             VerticalAlignment="Center"
+                                                             Foreground="{DynamicResource PrimaryBrush}"
+                                                             Margin="0,0,4,0"/>
+                                    <TextBlock Text="{Binding RemainingFocusTime}"
+                                               FontSize="12" FontWeight="Bold"
+                                               Foreground="{DynamicResource PrimaryBrush}"
+                                               VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <!-- Bottom: Settings -->
+                <StackPanel DockPanel.Dock="Bottom" Margin="12,0,12,16">
+                    <Separator Background="{DynamicResource DividerBrush}" Margin="8,0,8,8"/>
+                    <Button Style="{DynamicResource NavButtonStyle}"
+                            Command="{Binding NavigateToCommand}"
+                            CommandParameter="Settings">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Cog"
+                                                     Width="18" Height="18"
+                                                     VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource Nav_Settings}" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+            </DockPanel>
+        </Border>
+
+        <!-- ── Main content area ─────────────────────────────────────────── -->
+        <Grid Grid.Column="1" Background="{DynamicResource AppBackground}">
+            <Grid.Resources>
+                <!-- Map each page ViewModel to its View -->
+                <DataTemplate DataType="{x:Type vm:TaskListViewModel}">
+                    <views:TaskListView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:KanbanViewModel}">
+                    <views:KanbanView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:StatisticsViewModel}">
+                    <views:StatisticsView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:SettingsViewModel}">
+                    <views:SettingsView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:StickyNotesViewModel}">
+                    <views:StickyNotesView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:CalendarViewModel}">
+                    <views:CalendarView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:WatchLaterViewModel}">
+                    <views:WatchLaterView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:LabelViewModel}">
+                    <views:LabelView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:GoalViewModel}">
+                    <views:GoalView/>
+                </DataTemplate>
+            </Grid.Resources>
+
+            <!-- Page ContentControl — shows the current ViewModel's DataTemplate -->
+            <ContentControl Content="{Binding CurrentViewModel}"
+                            Focusable="False"/>
+
+            <!-- Fallback when no VM is loaded yet -->
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding CurrentViewModel}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+                <ProgressBar Width="48" Height="48"
+                             IsIndeterminate="True"
+                             Foreground="{DynamicResource PrimaryBrush}"
+                             HorizontalAlignment="Center"/>
+                <TextBlock Text="Loading…"
+                           FontSize="14"
+                           Foreground="{DynamicResource TextSecondaryBrush}"
+                           HorizontalAlignment="Center"
+                           Margin="0,12,0,0"/>
+            </StackPanel>
+
+            <!-- Busy overlay -->
+            <Grid>
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsBusy}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <Border Background="#CCFFFFFF"/>
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <ProgressBar Width="48" Height="48"
+                                 IsIndeterminate="True"
+                                 Foreground="{DynamicResource PrimaryBrush}"/>
+                    <TextBlock Text="{Binding BusyMessage}"
+                               Margin="0,12,0,0"
+                               Foreground="{DynamicResource TextSecondaryBrush}"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+
+        </Grid>
+
+        </Grid><!-- end Row1 inner grid -->
+    </Grid>
+</Window>

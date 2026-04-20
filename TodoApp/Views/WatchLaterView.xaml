@@ -1,0 +1,401 @@
+<UserControl x:Class="TodoApp.Views.WatchLaterView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:vm="clr-namespace:TodoApp.ViewModels"
+             xmlns:conv="clr-namespace:TodoApp.Converters"
+             xmlns:controls="clr-namespace:TodoApp.Controls"
+             d:DataContext="{d:DesignInstance Type=vm:WatchLaterViewModel}"
+             mc:Ignorable="d"
+             Background="{DynamicResource AppBackground}">
+
+    <UserControl.Resources>
+        <conv:UriToBitmapConverter x:Key="UriToBitmap"/>
+        <conv:HexToBrushConverter  x:Key="HexToBrush"/>
+
+        <!-- Card delete button style -->
+        <Style x:Key="WL_DeleteBtnStyle" TargetType="Button">
+            <Setter Property="Width"           Value="22"/>
+            <Setter Property="Height"          Value="22"/>
+            <Setter Property="Padding"         Value="0"/>
+            <Setter Property="Background"      Value="#88000000"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor"          Value="Hand"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" CornerRadius="11"
+                                Background="{TemplateBinding Background}">
+                            <materialDesign:PackIcon Kind="Close" Width="12" Height="12"
+                                                     Foreground="White"
+                                                     HorizontalAlignment="Center"
+                                                     VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#CCE53935"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Rounded text-box for add form -->
+        <Style x:Key="WL_TextBoxStyle" TargetType="TextBox"
+               BasedOn="{StaticResource RoundedTextBoxStyle}">
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>   <!-- header -->
+            <RowDefinition Height="Auto"/>   <!-- add form (collapsible) -->
+            <RowDefinition Height="*"/>      <!-- card grid -->
+        </Grid.RowDefinitions>
+
+        <!-- ── Header ─────────────────────────────────────────────────────── -->
+        <Border Grid.Row="0"
+                Background="{DynamicResource SurfaceBrush}"
+                BorderThickness="0,0,0,1"
+                BorderBrush="{DynamicResource DividerBrush}"
+                Padding="24,14">
+            <Grid>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="Bookmark" Width="22" Height="22"
+                                             Foreground="{DynamicResource PrimaryBrush}"
+                                             VerticalAlignment="Center"/>
+                    <TextBlock Text="{DynamicResource Nav_WatchLater}"
+                               FontSize="20" FontWeight="Bold"
+                               Foreground="{DynamicResource TextPrimaryBrush}"
+                               Margin="10,0,0,0" VerticalAlignment="Center"/>
+                    <Border Background="{DynamicResource Primary50Brush}"
+                            CornerRadius="10" Padding="8,2" Margin="10,0,0,0"
+                            VerticalAlignment="Center">
+                        <TextBlock Text="{Binding ItemCount}"
+                                   FontSize="12" FontWeight="Bold"
+                                   Foreground="{DynamicResource PrimaryBrush}"/>
+                    </Border>
+                </StackPanel>
+
+                <Button HorizontalAlignment="Right"
+                        Style="{DynamicResource MaterialDesignRaisedButton}"
+                        Background="{DynamicResource PrimaryBrush}"
+                        Command="{Binding ShowAddFormCommand}"
+                        Padding="14,6"
+                        materialDesign:ButtonAssist.CornerRadius="8">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Plus" Width="16" Height="16"
+                                                 VerticalAlignment="Center"/>
+                        <TextBlock Text="{DynamicResource WatchLater_Add}"
+                                   Margin="6,0,0,0" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </Border>
+
+        <!-- ── Add form (shown when IsAddFormVisible = true) ────────────── -->
+        <Border Grid.Row="1"
+                Background="{DynamicResource SurfaceBrush}"
+                BorderThickness="0,0,0,1"
+                BorderBrush="{DynamicResource DividerBrush}"
+                Padding="24,14">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsAddFormVisible}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+
+            <StackPanel>
+                <TextBlock Text="{DynamicResource WatchLater_AddTitle}"
+                           FontSize="12" FontWeight="Bold"
+                           Foreground="{DynamicResource TextSecondaryBrush}"
+                           Margin="0,0,0,10"/>
+
+                <!-- Title -->
+                <TextBlock Text="{DynamicResource WatchLater_TitleHint}"
+                           FontSize="11" FontWeight="Bold"
+                           Foreground="{DynamicResource TextSecondaryBrush}"
+                           Margin="0,0,0,4"/>
+                <TextBox Style="{StaticResource WL_TextBoxStyle}"
+                         Text="{Binding NewTitle, UpdateSourceTrigger=PropertyChanged}"
+                         Margin="0,0,0,10"/>
+
+                <!-- URL -->
+                <TextBlock Text="{DynamicResource WatchLater_UrlHint}"
+                           FontSize="11" FontWeight="Bold"
+                           Foreground="{DynamicResource TextSecondaryBrush}"
+                           Margin="0,0,0,4"/>
+                <TextBox Style="{StaticResource WL_TextBoxStyle}"
+                         Text="{Binding NewUrl, UpdateSourceTrigger=PropertyChanged}"
+                         Margin="0,0,0,10"/>
+
+                <!-- Notes -->
+                <TextBlock Text="{DynamicResource WatchLater_NotesHint}"
+                           FontSize="11" FontWeight="Bold"
+                           Foreground="{DynamicResource TextSecondaryBrush}"
+                           Margin="0,0,0,4"/>
+                <TextBox Style="{StaticResource WL_TextBoxStyle}"
+                         Text="{Binding NewNotes, UpdateSourceTrigger=PropertyChanged}"
+                         AcceptsReturn="True"
+                         Height="60" TextWrapping="Wrap"
+                         VerticalScrollBarVisibility="Auto"
+                         Margin="0,0,0,10"/>
+
+                <!-- Label picker -->
+                <StackPanel Margin="0,0,0,10">
+                    <TextBlock Text="{DynamicResource Label_Section}"
+                               FontSize="10" FontWeight="Bold"
+                               Foreground="{DynamicResource TextSecondaryBrush}"
+                               Margin="0,0,0,6"/>
+
+                    <!-- "No labels" hint -->
+                    <TextBlock Text="{DynamicResource Label_NoLabels}"
+                               FontSize="11" FontStyle="Italic"
+                               Foreground="{DynamicResource TextSecondaryBrush}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding LabelChips.Count}" Value="0">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+                    <ItemsControl ItemsSource="{Binding LabelChips}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border CornerRadius="12" Padding="10,4" Margin="0,0,6,6"
+                                        BorderThickness="2" Cursor="Hand">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="BorderBrush"
+                                                    Value="{Binding Label.Color, Converter={StaticResource HexToBrush}}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                    <Setter Property="Background"
+                                                            Value="{Binding Label.Color, Converter={StaticResource HexToBrush}}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <Border.InputBindings>
+                                        <MouseBinding MouseAction="LeftClick"
+                                                      Command="{Binding DataContext.ToggleLabelCommand,
+                                                          RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                      CommandParameter="{Binding}"/>
+                                    </Border.InputBindings>
+                                    <TextBlock Text="{Binding Label.Name}" FontSize="12">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Foreground"
+                                                        Value="{Binding Label.Color, Converter={StaticResource HexToBrush}}"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                        <Setter Property="Foreground" Value="White"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+
+                <!-- Buttons row -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <TextBlock VerticalAlignment="Center" Margin="0,0,12,0"
+                               FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsSaving}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                        <Run Text="⏳ "/>
+                        <Run Text="{DynamicResource WatchLater_Fetching}"/>
+                    </TextBlock>
+
+                    <Button Content="{DynamicResource Btn_Cancel}"
+                            Style="{DynamicResource GhostButtonStyle}"
+                            Command="{Binding CancelAddCommand}"
+                            Padding="12,6" Margin="0,0,8,0"/>
+
+                    <Button Content="{DynamicResource WatchLater_Save}"
+                            Style="{DynamicResource PrimaryButtonStyle}"
+                            Command="{Binding SaveNewItemCommand}"
+                            IsEnabled="{Binding CanSaveNew}"
+                            Padding="14,6"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- ── Card grid ──────────────────────────────────────────────────── -->
+        <ScrollViewer Grid.Row="2"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled"
+                      Padding="16,16,16,16">
+            <Grid>
+                <!-- Empty state -->
+                <StackPanel VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Margin="0,60,0,0">
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ItemCount}" Value="0">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+                    <materialDesign:PackIcon Kind="BookmarkOutline"
+                                             Width="64" Height="64"
+                                             Foreground="{DynamicResource DividerBrush}"
+                                             HorizontalAlignment="Center"/>
+                    <TextBlock Text="{DynamicResource WatchLater_Empty}"
+                               FontSize="16" FontWeight="Medium"
+                               Foreground="{DynamicResource TextSecondaryBrush}"
+                               HorizontalAlignment="Center" Margin="0,12,0,6"/>
+                    <TextBlock Text="{DynamicResource WatchLater_EmptyHint}"
+                               FontSize="13"
+                               Foreground="{DynamicResource TextSecondaryBrush}"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+
+                <!-- Items in a WrapPanel (responsive grid) -->
+                <ItemsControl ItemsSource="{Binding Items}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Width="160" Height="210"
+                                    Margin="6"
+                                    CornerRadius="10"
+                                    Background="{DynamicResource SurfaceBrush}"
+                                    Cursor="Hand">
+                                <Border.Effect>
+                                    <DropShadowEffect Color="Black" Opacity="0.10"
+                                                      BlurRadius="8" ShadowDepth="2"
+                                                      Direction="270"/>
+                                </Border.Effect>
+
+                                <Border.InputBindings>
+                                    <MouseBinding MouseAction="LeftClick"
+                                                  Command="{Binding DataContext.OpenUrlCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                  CommandParameter="{Binding}"/>
+                                </Border.InputBindings>
+
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="100"/>  <!-- thumbnail area -->
+                                        <RowDefinition Height="*"/>    <!-- text area -->
+                                    </Grid.RowDefinitions>
+
+                                    <!-- Thumbnail area -->
+                                    <Border Grid.Row="0" CornerRadius="10,10,0,0"
+                                            Background="{DynamicResource PrimaryBrush}"
+                                            ClipToBounds="True">
+                                        <Grid>
+                                            <!-- Thumbnail image (visible when ThumbnailUrl is set) -->
+                                            <Image Stretch="UniformToFill"
+                                                   Source="{Binding ThumbnailUrl, Converter={StaticResource UriToBitmap}}">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding ThumbnailUrl}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding ThumbnailUrl}" Value="">
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
+                                            <!-- Placeholder icon (when no thumbnail) -->
+                                            <materialDesign:PackIcon Kind="LinkVariant"
+                                                                      Width="36" Height="36"
+                                                                      Foreground="#55FFFFFF"
+                                                                      HorizontalAlignment="Center"
+                                                                      VerticalAlignment="Center">
+                                                <materialDesign:PackIcon.Style>
+                                                    <Style TargetType="materialDesign:PackIcon">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding ThumbnailUrl}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding ThumbnailUrl}" Value="">
+                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </materialDesign:PackIcon.Style>
+                                            </materialDesign:PackIcon>
+                                        </Grid>
+                                    </Border>
+
+                                    <!-- Text area -->
+                                    <StackPanel Grid.Row="1" Margin="10,8,10,8" VerticalAlignment="Top">
+                                        <TextBlock Text="{Binding Title}"
+                                                   FontWeight="SemiBold"
+                                                   FontSize="12"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   MaxHeight="36"
+                                                   TextWrapping="Wrap"
+                                                   Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                        <controls:MarkdownTextBlock
+                                                   MarkdownText="{Binding Content}"
+                                                   FontSize="11"
+                                                   MaxHeight="32"
+                                                   TextWrapping="Wrap"
+                                                   Margin="0,3,0,0"
+                                                   Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                    </StackPanel>
+
+                                    <!-- Delete button (top right corner) -->
+                                    <Button Grid.Row="0"
+                                            Style="{StaticResource WL_DeleteBtnStyle}"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Top"
+                                            Margin="0,6,6,0"
+                                            Command="{Binding DataContext.DeleteItemCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"
+                                            WindowChrome.IsHitTestVisibleInChrome="True"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

@@ -1,0 +1,517 @@
+<UserControl x:Class="TodoApp.Views.CalendarView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:vm="clr-namespace:TodoApp.ViewModels"
+             xmlns:models="clr-namespace:TodoApp.Core.Models"
+             xmlns:conv="clr-namespace:TodoApp.Converters"
+             d:DataContext="{d:DesignInstance Type=vm:CalendarViewModel}"
+             mc:Ignorable="d"
+             Background="{DynamicResource AppBackground}">
+
+    <UserControl.Resources>
+        <conv:HexToBrushConverter x:Key="HexToBrush"/>
+
+        <!-- Day cell style: current-month vs dim -->
+        <Style x:Key="DayCellBorder" TargetType="Border">
+            <Setter Property="Background" Value="{DynamicResource SurfaceBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource DividerBrush}"/>
+            <Setter Property="BorderThickness" Value="0,0,1,1"/>
+            <Setter Property="MinHeight" Value="80"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>  <!-- Header -->
+            <RowDefinition Height="*"/>     <!-- Content -->
+        </Grid.RowDefinitions>
+
+        <!-- ── Page Header ───────────────────────────────────────────────── -->
+        <Border Grid.Row="0"
+                Background="{DynamicResource SurfaceBrush}"
+                BorderThickness="0,0,0,1"
+                BorderBrush="{DynamicResource DividerBrush}"
+                Padding="24,14">
+            <Grid>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="CalendarMonth" Width="22" Height="22"
+                                             Foreground="{DynamicResource PrimaryBrush}"
+                                             VerticalAlignment="Center"/>
+                    <TextBlock Text="{DynamicResource Page_Calendar}"
+                               FontSize="20" FontWeight="Bold"
+                               Foreground="{DynamicResource TextPrimaryBrush}"
+                               Margin="10,0,0,0" VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <!-- Month navigation -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
+                            VerticalAlignment="Center">
+                    <Button Style="{DynamicResource IconButtonStyle}"
+                            Command="{Binding PreviousMonthCommand}"
+                            Width="32" Height="32" Margin="0,0,4,0">
+                        <materialDesign:PackIcon Kind="ChevronLeft" Width="18" Height="18"
+                                                 Foreground="{DynamicResource TextPrimaryBrush}"/>
+                    </Button>
+                    <TextBlock Text="{Binding MonthYearLabel}"
+                               FontSize="15" FontWeight="SemiBold"
+                               Foreground="{DynamicResource TextPrimaryBrush}"
+                               VerticalAlignment="Center"
+                               MinWidth="140"
+                               TextAlignment="Center"/>
+                    <Button Style="{DynamicResource IconButtonStyle}"
+                            Command="{Binding NextMonthCommand}"
+                            Width="32" Height="32" Margin="4,0,8,0">
+                        <materialDesign:PackIcon Kind="ChevronRight" Width="18" Height="18"
+                                                 Foreground="{DynamicResource TextPrimaryBrush}"/>
+                    </Button>
+                    <Button Style="{DynamicResource GhostButtonStyle}"
+                            Command="{Binding GoToTodayCommand}"
+                            Padding="12,7">
+                        <TextBlock Text="{DynamicResource Cal_Today}"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- ── Main area: calendar + side panel ──────────────────────────── -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2.5*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*" MinWidth="260"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- ── Calendar grid ─────────────────────────────────────────── -->
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>   <!-- Week-header row -->
+                    <RowDefinition Height="*"/>      <!-- Day cells -->
+                </Grid.RowDefinitions>
+
+                <!-- Week-header (Mon–Sun) — DynamicResource so it updates on language switch -->
+                <Border Grid.Row="0"
+                        Background="{DynamicResource SurfaceBrush}"
+                        BorderThickness="0,0,0,1"
+                        BorderBrush="{DynamicResource DividerBrush}">
+                    <UniformGrid Rows="1" Columns="7">
+                        <TextBlock Text="{DynamicResource Day_Mon}" HorizontalAlignment="Center" Padding="0,8" FontSize="11" FontWeight="Bold" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                        <TextBlock Text="{DynamicResource Day_Tue}" HorizontalAlignment="Center" Padding="0,8" FontSize="11" FontWeight="Bold" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                        <TextBlock Text="{DynamicResource Day_Wed}" HorizontalAlignment="Center" Padding="0,8" FontSize="11" FontWeight="Bold" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                        <TextBlock Text="{DynamicResource Day_Thu}" HorizontalAlignment="Center" Padding="0,8" FontSize="11" FontWeight="Bold" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                        <TextBlock Text="{DynamicResource Day_Fri}" HorizontalAlignment="Center" Padding="0,8" FontSize="11" FontWeight="Bold" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                        <TextBlock Text="{DynamicResource Day_Sat}" HorizontalAlignment="Center" Padding="0,8" FontSize="11" FontWeight="Bold" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                        <TextBlock Text="{DynamicResource Day_Sun}" HorizontalAlignment="Center" Padding="0,8" FontSize="11" FontWeight="Bold" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                    </UniformGrid>
+                </Border>
+
+                <!-- Day cells grid (42 items = 6 weeks) -->
+                <ScrollViewer Grid.Row="1"
+                              VerticalScrollBarVisibility="Disabled"
+                              HorizontalScrollBarVisibility="Disabled">
+                    <ItemsControl ItemsSource="{Binding Days}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Rows="6" Columns="7"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="{x:Type vm:CalendarDayViewModel}">
+                                <Border>
+                                    <Border.InputBindings>
+                                        <MouseBinding MouseAction="LeftClick"
+                                                      Command="{Binding DataContext.SelectDayCommand,
+                                                                RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                      CommandParameter="{Binding}"/>
+                                    </Border.InputBindings>
+
+                                    <!-- Cell content -->
+                                    <Grid Margin="6,4,6,4">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <!-- Day number -->
+                                        <Grid Grid.Row="0">
+                                            <!-- Today circle -->
+                                            <Border Width="26" Height="26"
+                                                    CornerRadius="13"
+                                                    HorizontalAlignment="Left"
+                                                    Background="{DynamicResource PrimaryBrush}">
+                                                <Border.Style>
+                                                    <Style TargetType="Border">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsToday}" Value="True">
+                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Border.Style>
+                                                <TextBlock Text="{Binding DayNumber}"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontSize="12" FontWeight="Bold"
+                                                           Foreground="White"/>
+                                            </Border>
+
+                                            <!-- Normal day number (not today) -->
+                                            <TextBlock Text="{Binding DayNumber}"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       Width="26" TextAlignment="Center"
+                                                       FontSize="12">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+                                                        <Setter Property="FontWeight" Value="Normal"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsCurrentMonth}" Value="False">
+                                                                <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}"/>
+                                                                <Setter Property="Opacity" Value="0.4"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsToday}" Value="True">
+                                                                <Setter Property="Visibility" Value="Hidden"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+
+                                            <!-- Overdue badge — visible only when HasOverdue=True -->
+                                            <Border HorizontalAlignment="Right"
+                                                    VerticalAlignment="Center"
+                                                    Background="#F44336"
+                                                    CornerRadius="8" Padding="4,1">
+                                                <Border.Style>
+                                                    <Style TargetType="Border">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding HasOverdue}" Value="True">
+                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Border.Style>
+                                                <TextBlock Text="{Binding OverdueCount}"
+                                                           FontSize="9" FontWeight="Bold"
+                                                           Foreground="White"/>
+                                            </Border>
+                                        </Grid>
+
+                                        <!-- Task title previews (max 2) -->
+                                        <ItemsControl Grid.Row="1"
+                                                      ItemsSource="{Binding TaskPreview}"
+                                                      Margin="0,2,0,0">
+                                            <ItemsControl.Style>
+                                                <Style TargetType="ItemsControl">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding HasTasks}" Value="False">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ItemsControl.Style>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate DataType="{x:Type models:TodoItem}">
+                                                    <Border CornerRadius="3" Padding="4,2"
+                                                            Margin="0,0,0,2">
+                                                        <Border.Style>
+                                                            <Style TargetType="Border">
+                                                                <Setter Property="Background" Value="{DynamicResource Primary50Brush}"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding IsOverdue}" Value="True">
+                                                                        <Setter Property="Background" Value="#1AF44336"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Border.Style>
+                                                        <TextBlock Text="{Binding Title}"
+                                                                   FontSize="10"
+                                                                   TextTrimming="CharacterEllipsis"
+                                                                   Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+
+                                        <!-- Dot row (priority colors) — shown when tasks exist -->
+                                        <ItemsControl Grid.Row="2"
+                                                      ItemsSource="{Binding DotColors}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Horizontal"/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Ellipse Width="6" Height="6"
+                                                             Margin="1,0"
+                                                             Fill="{Binding Converter={StaticResource HexToBrush}}"/>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </Grid>
+
+                                    <!-- Selected day highlight border -->
+                                    <Border.Style>
+                                        <Style TargetType="Border" BasedOn="{StaticResource DayCellBorder}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                    <Setter Property="Background" Value="{DynamicResource Primary100Brush}"/>
+                                                    <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                                                    <Setter Property="BorderThickness" Value="0,0,1,1"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding IsCurrentMonth}" Value="False">
+                                                    <Setter Property="Background" Value="{DynamicResource AppBackground}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+
+            <!-- Divider -->
+            <Border Grid.Column="1"
+                    Width="1"
+                    Background="{DynamicResource DividerBrush}"/>
+
+            <!-- ── Day detail panel ───────────────────────────────────────── -->
+            <Grid Grid.Column="2">
+
+                <!-- No selection state -->
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center"
+                            Margin="16">
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding HasSelectedDay}" Value="True">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+                    <materialDesign:PackIcon Kind="CalendarBlank"
+                                             Width="48" Height="48"
+                                             Foreground="{DynamicResource TextSecondaryBrush}"
+                                             HorizontalAlignment="Center"
+                                             Opacity="0.3"/>
+                    <TextBlock Text="{DynamicResource Cal_SelectDay}"
+                               FontSize="13"
+                               Foreground="{DynamicResource TextSecondaryBrush}"
+                               HorizontalAlignment="Center"
+                               Margin="0,10,0,0"
+                               Opacity="0.6"/>
+                </StackPanel>
+
+                <!-- Selected day detail -->
+                <Grid Margin="0">
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding HasSelectedDay}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Day header -->
+                    <Border Grid.Row="0"
+                            Background="{DynamicResource SurfaceBrush}"
+                            BorderThickness="0,0,0,1"
+                            BorderBrush="{DynamicResource DividerBrush}"
+                            Padding="16,12">
+                        <StackPanel>
+                            <TextBlock Text="{Binding SelectedDayLabel}"
+                                       FontSize="13" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource TextPrimaryBrush}"
+                                       TextWrapping="Wrap"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                <Border Background="{DynamicResource Primary50Brush}"
+                                        CornerRadius="8" Padding="6,2">
+                                    <TextBlock FontSize="11" FontWeight="Bold"
+                                               Foreground="{DynamicResource PrimaryBrush}">
+                                        <Run Text="{Binding SelectedDayTasks.Count, Mode=OneWay}"/>
+                                        <Run Text="{DynamicResource Cal_Tasks}"/>
+                                    </TextBlock>
+                                </Border>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Task list for selected day -->
+                    <ScrollViewer Grid.Row="1"
+                                  VerticalScrollBarVisibility="Auto">
+                        <StackPanel Margin="12,8,12,16">
+
+                            <!-- Empty day message -->
+                            <StackPanel HorizontalAlignment="Center"
+                                        Margin="0,32,0,0">
+                                <StackPanel.Style>
+                                    <Style TargetType="StackPanel">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding SelectedDayTasks.Count}" Value="0">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </StackPanel.Style>
+                                <materialDesign:PackIcon Kind="CheckAll"
+                                                         Width="36" Height="36"
+                                                         Foreground="{DynamicResource TextSecondaryBrush}"
+                                                         HorizontalAlignment="Center"
+                                                         Opacity="0.3"/>
+                                <TextBlock Text="{DynamicResource Cal_NoDueTasks}"
+                                           FontSize="12"
+                                           Foreground="{DynamicResource TextSecondaryBrush}"
+                                           HorizontalAlignment="Center"
+                                           Margin="0,8,0,0"
+                                           Opacity="0.6"/>
+                            </StackPanel>
+
+                            <!-- Task cards -->
+                            <ItemsControl ItemsSource="{Binding SelectedDayTasks}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Margin="0,0,0,8"
+                                                CornerRadius="8"
+                                                Padding="12,10"
+                                                BorderThickness="1"
+                                                BorderBrush="{DynamicResource DividerBrush}"
+                                                Background="{DynamicResource SurfaceBrush}">
+                                            <Border.Effect>
+                                                <DropShadowEffect Color="Black" Opacity="0.06"
+                                                                  BlurRadius="6" ShadowDepth="1"/>
+                                            </Border.Effect>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="4"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <!-- Priority stripe -->
+                                                <Border Grid.Column="0"
+                                                        CornerRadius="2" Margin="0,0,10,0">
+                                                    <Border.Style>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="Background" Value="#2196F3"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Priority}" Value="Low">
+                                                                    <Setter Property="Background" Value="#4CAF50"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Priority}" Value="High">
+                                                                    <Setter Property="Background" Value="#FF9800"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Priority}" Value="Critical">
+                                                                    <Setter Property="Background" Value="#F44336"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Border.Style>
+                                                </Border>
+
+                                                <!-- Task info -->
+                                                <StackPanel Grid.Column="1">
+                                                    <TextBlock Text="{Binding Title}"
+                                                               FontSize="13" FontWeight="Medium"
+                                                               TextTrimming="CharacterEllipsis"
+                                                               Foreground="{DynamicResource TextPrimaryBrush}">
+                                                        <TextBlock.Style>
+                                                            <Style TargetType="TextBlock">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Status}" Value="Done">
+                                                                        <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                                                        <Setter Property="Opacity" Value="0.5"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </TextBlock.Style>
+                                                    </TextBlock>
+                                                    <StackPanel Orientation="Horizontal" Margin="0,3,0,0">
+                                                        <TextBlock Text="{Binding Deadline, StringFormat={}{0:HH:mm}}"
+                                                                   FontSize="11"
+                                                                   Foreground="{DynamicResource TextSecondaryBrush}"
+                                                                   Margin="0,0,8,0"/>
+                                                        <Border CornerRadius="4" Padding="5,1">
+                                                            <Border.Style>
+                                                                <Style TargetType="Border">
+                                                                    <Setter Property="Background" Value="{DynamicResource Primary50Brush}"/>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding IsOverdue}" Value="True">
+                                                                            <Setter Property="Background" Value="#1AF44336"/>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Border.Style>
+                                                            <TextBlock Text="{Binding PriorityLabel}"
+                                                                       FontSize="10" FontWeight="Medium"
+                                                                       Foreground="{DynamicResource PrimaryBrush}"/>
+                                                        </Border>
+                                                    </StackPanel>
+                                                    <!-- Subtask progress -->
+                                                    <ProgressBar Height="3"
+                                                                 Value="{Binding ProgressPercentage, Mode=OneWay}"
+                                                                 Maximum="100"
+                                                                 Margin="0,5,0,0"
+                                                                 Foreground="{DynamicResource PrimaryBrush}"
+                                                                 Background="{DynamicResource DividerBrush}">
+                                                        <ProgressBar.Style>
+                                                            <Style TargetType="ProgressBar">
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding SubTasks.Count}" Value="0">
+                                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </ProgressBar.Style>
+                                                    </ProgressBar>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </Grid>
+        </Grid>
+
+        <!-- Busy overlay -->
+        <Grid Grid.Row="1">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsBusy}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <Border Background="#88FFFFFF"/>
+            <ProgressBar Width="40" Height="40" IsIndeterminate="True"
+                         VerticalAlignment="Center" HorizontalAlignment="Center"
+                         Foreground="{DynamicResource PrimaryBrush}"/>
+        </Grid>
+    </Grid>
+</UserControl>

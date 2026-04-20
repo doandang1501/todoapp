@@ -1,0 +1,368 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- ═══════════════════════════════ APP ═══════════════════════════════════ -->
+    <sys:String x:Key="App_Title">TodoApp</sys:String>
+    <sys:String x:Key="App_Subtitle">Quản lý công việc cá nhân</sys:String>
+
+    <!-- ═══════════════════════════════ NAV ═══════════════════════════════════ -->
+    <sys:String x:Key="Nav_Views">GIAO DIỆN</sys:String>
+    <sys:String x:Key="Nav_Tools">CÔNG CỤ</sys:String>
+    <sys:String x:Key="Nav_TaskList">Danh sách việc</sys:String>
+    <sys:String x:Key="Nav_KanbanBoard">Bảng Kanban</sys:String>
+    <sys:String x:Key="Nav_Statistics">Thống kê</sys:String>
+    <sys:String x:Key="Nav_WatchLater">Xem sau</sys:String>
+    <sys:String x:Key="Nav_Labels">Nhãn</sys:String>
+    <sys:String x:Key="Nav_Goals">Mục tiêu</sys:String>
+    <sys:String x:Key="Nav_Calendar">Lịch</sys:String>
+    <sys:String x:Key="Nav_StickyNotes">Ghi chú dán</sys:String>
+    <sys:String x:Key="Nav_FocusMode">Chế độ tập trung</sys:String>
+    <sys:String x:Key="Nav_FocusOn">Tập trung: BẬT</sys:String>
+    <sys:String x:Key="Nav_Settings">Cài đặt</sys:String>
+
+    <!-- ═══════════════════════════════ COMMON ════════════════════════════════ -->
+    <sys:String x:Key="Btn_Save">Lưu</sys:String>
+    <sys:String x:Key="Btn_Cancel">Hủy</sys:String>
+    <sys:String x:Key="Btn_Delete">Xóa</sys:String>
+    <sys:String x:Key="Btn_Edit">Sửa</sys:String>
+    <sys:String x:Key="Btn_Add">Thêm</sys:String>
+    <sys:String x:Key="Btn_Close">Đóng</sys:String>
+    <sys:String x:Key="Btn_Yes">Có</sys:String>
+    <sys:String x:Key="Btn_No">Không</sys:String>
+    <sys:String x:Key="Btn_Browse">Duyệt…</sys:String>
+    <sys:String x:Key="Btn_TestSound">Thử âm thanh</sys:String>
+    <sys:String x:Key="Btn_Refresh">Làm mới</sys:String>
+    <sys:String x:Key="Btn_Test">Kiểm tra</sys:String>
+    <sys:String x:Key="Btn_SaveSettings">Lưu cài đặt</sys:String>
+    <sys:String x:Key="Btn_DeleteConfirm">Xóa</sys:String>
+
+    <!-- ═══════════════════════════════ DIALOGS ═══════════════════════════════ -->
+    <sys:String x:Key="Dialog_ConfirmDelete">Xóa công việc?</sys:String>
+    <sys:String x:Key="Dialog_DeleteWarning">Hành động này không thể hoàn tác.</sys:String>
+
+    <!-- ═══════════════════════════════ TASK LIST ══════════════════════════════ -->
+    <sys:String x:Key="Page_Tasks">Danh sách việc</sys:String>
+    <sys:String x:Key="Task_MyTasks">Công việc của tôi</sys:String>
+    <sys:String x:Key="Task_NewTask">Thêm mới</sys:String>
+    <sys:String x:Key="Task_AddTask">+ Thêm việc</sys:String>
+    <sys:String x:Key="Task_SearchPlaceholder">Tìm kiếm công việc…</sys:String>
+    <sys:String x:Key="Task_FilterAll">Tất cả</sys:String>
+    <sys:String x:Key="Task_FilterActive">Đang làm</sys:String>
+    <sys:String x:Key="Task_FilterDone">Hoàn thành</sys:String>
+    <sys:String x:Key="Task_FilterOverdue">Trễ hạn</sys:String>
+    <sys:String x:Key="Task_FilterToday">Hôm nay</sys:String>
+    <sys:String x:Key="Task_FilterPinned">Đã ghim</sys:String>
+    <sys:String x:Key="Task_FilterHigh">Cao+</sys:String>
+    <sys:String x:Key="Task_SortBy">Sắp xếp:</sys:String>
+    <sys:String x:Key="Task_SortPriority">Ưu tiên</sys:String>
+    <sys:String x:Key="Task_SortTitle">Tên</sys:String>
+    <sys:String x:Key="Task_SortDeadline">Hạn chót</sys:String>
+    <sys:String x:Key="Task_SortCreated">Ngày tạo</sys:String>
+    <sys:String x:Key="Task_Empty">Không có việc nào</sys:String>
+    <sys:String x:Key="Task_EmptyHint">Nhấn "+ Thêm việc" để bắt đầu</sys:String>
+    <sys:String x:Key="Task_Edit">Chỉnh sửa</sys:String>
+    <sys:String x:Key="Task_Pin">Ghim</sys:String>
+    <sys:String x:Key="Task_Delete">Xóa</sys:String>
+    <sys:String x:Key="Summary_Total"> tổng · </sys:String>
+    <sys:String x:Key="Summary_Today"> hôm nay</sys:String>
+
+    <!-- ═══════════════════════════ TASK DETAIL DIALOG ═══════════════════════ -->
+    <sys:String x:Key="Task_AddNewTitle">Thêm công việc mới</sys:String>
+    <sys:String x:Key="Task_EditTitle">Chỉnh sửa công việc</sys:String>
+    <sys:String x:Key="Task_TitleLabel">TIÊU ĐỀ *</sys:String>
+    <sys:String x:Key="Task_TitleHint">Nhập tiêu đề…</sys:String>
+    <sys:String x:Key="Task_DescLabel">MÔ TẢ</sys:String>
+    <sys:String x:Key="Task_DescHint">Ghi chú thêm (không bắt buộc)…</sys:String>
+    <sys:String x:Key="Task_PriorityLabel">ĐỘ ƯU TIÊN</sys:String>
+    <sys:String x:Key="Task_StatusLabel">TRẠNG THÁI</sys:String>
+    <sys:String x:Key="Task_StatusTodo">Cần làm</sys:String>
+    <sys:String x:Key="Task_StatusInProgress">Đang làm</sys:String>
+    <sys:String x:Key="Task_StatusDone">Hoàn thành</sys:String>
+    <sys:String x:Key="Task_DeadlineLabel">THỜI HẠN</sys:String>
+    <sys:String x:Key="Task_SelectDate">Chọn ngày</sys:String>
+    <sys:String x:Key="Task_TagsLabel">NHÃN</sys:String>
+    <sys:String x:Key="Task_AddTagHint">Thêm nhãn…</sys:String>
+    <sys:String x:Key="Task_SubtasksLabel">VIỆC CON</sys:String>
+    <sys:String x:Key="Task_AddSubtaskHint">Thêm việc con…</sys:String>
+    <sys:String x:Key="Task_RemindMe">NHẮC TÔI</sys:String>
+    <sys:String x:Key="Remind_1DayBefore">Trước 1 ngày</sys:String>
+    <sys:String x:Key="Remind_1HourBefore">Trước 1 giờ</sys:String>
+    <sys:String x:Key="Remind_5MinBefore">Trước 5 phút</sys:String>
+    <sys:String x:Key="Remind_AtDeadline">Đúng hạn</sys:String>
+    <sys:String x:Key="Remind_1DayAfter">Sau 1 ngày (nhắc trễ)</sys:String>
+    <sys:String x:Key="Task_PinLabel">Ghim công việc lên đầu</sys:String>
+    <sys:String x:Key="Task_SaveBtn">Lưu công việc</sys:String>
+
+    <!-- ═══════════════════════════════ KANBAN ═════════════════════════════════ -->
+    <sys:String x:Key="Page_Kanban">Bảng Kanban</sys:String>
+    <sys:String x:Key="Kanban_Todo">Cần làm</sys:String>
+    <sys:String x:Key="Kanban_InProgress">Đang làm</sys:String>
+    <sys:String x:Key="Kanban_Done">Hoàn thành</sys:String>
+    <sys:String x:Key="Kanban_AddTask">+ Thêm việc</sys:String>
+    <sys:String x:Key="Kanban_SummaryTodo"> cần làm · </sys:String>
+    <sys:String x:Key="Kanban_SummaryInProgress"> đang làm · </sys:String>
+    <sys:String x:Key="Kanban_SummaryDone"> hoàn thành</sys:String>
+
+    <!-- ═══════════════════════════════ STATISTICS ═════════════════════════════ -->
+    <sys:String x:Key="Page_Statistics">Thống kê</sys:String>
+    <sys:String x:Key="Stat_ActiveTasks">VIỆC ĐANG LÀM</sys:String>
+    <sys:String x:Key="Stat_CompletedToday">HOÀN THÀNH HÔM NAY</sys:String>
+    <sys:String x:Key="Stat_Overdue">TRỄ HẠN</sys:String>
+    <sys:String x:Key="Stat_DueSoon">HẾT HẠN TRONG 3 NGÀY</sys:String>
+    <sys:String x:Key="Stat_CurrentStreak">CHUỖI NGÀY HIỆN TẠI</sys:String>
+    <sys:String x:Key="Stat_LongestStreak">CHUỖI NGÀY DÀI NHẤT</sys:String>
+    <sys:String x:Key="Stat_CompletionRate">TỶ LỆ HOÀN THÀNH 7 NGÀY</sys:String>
+    <sys:String x:Key="Stat_AvgTime">THỜI GIAN TRUNG BÌNH</sys:String>
+    <sys:String x:Key="Stat_TopTags">THẺ PHỔ BIẾN NHẤT</sys:String>
+    <sys:String x:Key="Stat_NoTags">Chưa có thẻ nào</sys:String>
+
+    <!-- Chart titles (used by OxyPlot PlotModel.Title) -->
+    <sys:String x:Key="Chart_Daily30Days">Công việc hoàn thành — 30 ngày qua</sys:String>
+    <sys:String x:Key="Chart_ByPriority">Công việc theo độ ưu tiên</sys:String>
+    <sys:String x:Key="Chart_ByHour">Hoàn thành theo giờ trong ngày</sys:String>
+
+    <!-- ═══════════════════════════════ STICKY NOTES ═══════════════════════════ -->
+    <sys:String x:Key="Page_StickyNotes">Ghi chú dán</sys:String>
+    <sys:String x:Key="StickyNotes_NewNote">Ghi chú mới</sys:String>
+    <sys:String x:Key="StickyNotes_Empty">Chưa có ghi chú nào</sys:String>
+    <sys:String x:Key="StickyNotes_EmptyHint">Nhấn "Ghi chú mới" để tạo ghi chú đầu tiên</sys:String>
+
+    <!-- ═══════════════════════════════ SETTINGS ═══════════════════════════════ -->
+    <sys:String x:Key="Page_Settings">Cài đặt</sys:String>
+    <sys:String x:Key="Settings_General">Tổng quát</sys:String>
+    <sys:String x:Key="Settings_Appearance">Giao diện</sys:String>
+    <sys:String x:Key="Settings_Notifications">Thông báo</sys:String>
+    <sys:String x:Key="Settings_Sound">Âm thanh</sys:String>
+    <sys:String x:Key="Settings_Email">Email</sys:String>
+    <sys:String x:Key="Settings_Backup">Sao lưu</sys:String>
+    <sys:String x:Key="Settings_Focus">Tập trung</sys:String>
+    <sys:String x:Key="Settings_Language">Ngôn ngữ</sys:String>
+
+    <!-- General tab -->
+    <sys:String x:Key="Settings_Startup">KHỞI ĐỘNG</sys:String>
+    <sys:String x:Key="Settings_RunOnStartup">Chạy khi khởi động Windows</sys:String>
+    <sys:String x:Key="Settings_StartMinimized">Khởi động thu nhỏ xuống khay</sys:String>
+    <sys:String x:Key="Settings_MinimizeToTray">Thu nhỏ xuống khay khi đóng</sys:String>
+    <sys:String x:Key="Settings_ShowInTaskbar">Hiển thị trên thanh taskbar</sys:String>
+    <sys:String x:Key="Settings_DefaultView">Giao diện mặc định khi mở</sys:String>
+    <sys:String x:Key="Settings_DefaultViewHint">Trang nào mở đầu tiên</sys:String>
+    <sys:String x:Key="Settings_GlobalHotkey">Phím tắt toàn cục</sys:String>
+    <sys:String x:Key="Settings_GlobalHotkeyHint">Mở ứng dụng từ bất kỳ đâu</sys:String>
+
+    <!-- Appearance tab -->
+    <sys:String x:Key="Settings_AutoDarkMode">Chế độ tối tự động</sys:String>
+    <sys:String x:Key="Settings_AutoDarkModeHint">Tự động chuyển sáng/tối theo giờ trong ngày</sys:String>
+    <sys:String x:Key="Settings_DarkModeStart">Bật chế độ tối lúc giờ (0–23)</sys:String>
+    <sys:String x:Key="Settings_LightModeStart">Bật chế độ sáng lúc giờ (0–23)</sys:String>
+    <sys:String x:Key="Str_ThemeMode">CHẾ ĐỘ GIAO DIỆN</sys:String>
+    <sys:String x:Key="Str_ThemeLight">Sáng</sys:String>
+    <sys:String x:Key="Str_ThemeDark">Tối</sys:String>
+    <sys:String x:Key="Str_ColorPreset">MÀU SẮC</sys:String>
+    <sys:String x:Key="Str_ColorPresetHint">Nhấn vào màu để xem trước ngay lập tức</sys:String>
+    <sys:String x:Key="Settings_Effects">HIỆU ỨNG</sys:String>
+    <sys:String x:Key="Settings_UseAnimations">Bật hiệu ứng chuyển động</sys:String>
+    <sys:String x:Key="Settings_ShowConfetti">Bắn pháo khi hoàn thành việc</sys:String>
+
+    <!-- Notifications tab -->
+    <sys:String x:Key="Settings_EnableNotifications">Bật thông báo</sys:String>
+    <sys:String x:Key="Settings_ReminderTimes">THỜI GIAN NHẮC NHỞ MẶC ĐỊNH</sys:String>
+    <sys:String x:Key="Settings_Notify1Day">1 ngày trước hạn chót</sys:String>
+    <sys:String x:Key="Settings_Notify1Hour">1 giờ trước hạn chót</sys:String>
+    <sys:String x:Key="Settings_Notify5Min">5 phút trước hạn chót</sys:String>
+    <sys:String x:Key="Settings_NotifyAtDeadline">Đúng lúc hết hạn</sys:String>
+    <sys:String x:Key="Settings_NotifyOverdue">1 ngày sau hạn chót (nhắc trễ hạn)</sys:String>
+    <sys:String x:Key="Settings_ToastSettings">CÀI ĐẶT TOAST</sys:String>
+    <sys:String x:Key="Settings_ToastDuration">Tự ẩn sau (giây)</sys:String>
+    <sys:String x:Key="Settings_CheckInterval">Kiểm tra mỗi (giây)</sys:String>
+    <sys:String x:Key="Settings_DetectMissed">Phát hiện thông báo bỏ lỡ khi khởi động</sys:String>
+
+    <!-- Sound tab -->
+    <sys:String x:Key="Settings_EnableSound">Bật âm thanh</sys:String>
+    <sys:String x:Key="Settings_MasterVolume">ÂM LƯỢNG CHÍNH</sys:String>
+    <sys:String x:Key="Settings_PlayCompletion">Phát âm thanh khi hoàn thành việc</sys:String>
+    <sys:String x:Key="Settings_CustomSound">ÂM THANH TÙY CHỈNH</sys:String>
+    <sys:String x:Key="Settings_SoundHint">Để trống để dùng âm thanh mặc định</sys:String>
+
+    <!-- Email tab -->
+    <sys:String x:Key="Settings_EnableEmail">Bật thông báo qua email</sys:String>
+    <sys:String x:Key="Settings_EmailProvider">NHÀ CUNG CẤP</sys:String>
+    <sys:String x:Key="Settings_BrevoRecommended">Brevo (khuyến nghị)</sys:String>
+    <sys:String x:Key="Settings_BrevoApi">BREVO API</sys:String>
+    <sys:String x:Key="Settings_Recipient">NGƯỜI NHẬN</sys:String>
+    <sys:String x:Key="Settings_SendEmailFor">GỬI EMAIL KHI</sys:String>
+    <sys:String x:Key="Settings_Email1Day">1 ngày trước</sys:String>
+    <sys:String x:Key="Settings_Email1Hour">1 giờ trước</sys:String>
+    <sys:String x:Key="Settings_Email5Min">5 phút trước</sys:String>
+    <sys:String x:Key="Settings_TestEmail">Gửi email thử</sys:String>
+    <sys:String x:Key="Settings_SenderEmail">Email người gửi</sys:String>
+    <sys:String x:Key="Settings_SenderName">Tên người gửi</sys:String>
+    <sys:String x:Key="Settings_RecipientEmail">Email người nhận</sys:String>
+    <sys:String x:Key="Settings_RecipientName">Tên người nhận</sys:String>
+
+    <!-- Backup tab -->
+    <sys:String x:Key="Page_Backup">Sao lưu &amp; Khôi phục</sys:String>
+    <sys:String x:Key="Settings_AutoBackup">Tự động sao lưu hàng ngày</sys:String>
+    <sys:String x:Key="Settings_BackupOnExit">Sao lưu khi đóng ứng dụng</sys:String>
+    <sys:String x:Key="Settings_KeepBackups">Giữ tối đa N bản sao lưu</sys:String>
+    <sys:String x:Key="Settings_BackupFolder">THƯ MỤC SAO LƯU</sys:String>
+    <sys:String x:Key="Settings_BackupNow">Sao lưu ngay</sys:String>
+    <sys:String x:Key="Settings_Restore">Khôi phục từ bản sao lưu…</sys:String>
+    <sys:String x:Key="Settings_ExportImport">XUẤT / NHẬP CÔNG VIỆC</sys:String>
+    <sys:String x:Key="Settings_ExportImportHint">Xuất công việc ra file JSON để chia sẻ hoặc lưu trữ. Nhập công việc từ file đã xuất trước đó.</sys:String>
+    <sys:String x:Key="Settings_ExportTasks">Xuất công việc…</sys:String>
+    <sys:String x:Key="Settings_ImportTasks">Nhập công việc…</sys:String>
+
+    <!-- Focus tab -->
+    <sys:String x:Key="Page_Focus">Chế độ tập trung</sys:String>
+    <sys:String x:Key="Settings_FocusDuration">THỜI LƯỢNG MẶC ĐỊNH</sys:String>
+    <sys:String x:Key="Settings_FocusLength">Thời gian tập trung (phút)</sys:String>
+    <sys:String x:Key="Settings_DuringFocus">TRONG KHI TẬP TRUNG</sys:String>
+    <sys:String x:Key="Settings_SuppressToasts">Tắt thông báo toast</sys:String>
+    <sys:String x:Key="Settings_SuppressSounds">Tắt âm thanh thông báo</sys:String>
+    <sys:String x:Key="Settings_PlayEndSound">Phát âm thanh khi kết thúc phiên</sys:String>
+
+    <!-- Language tab -->
+    <sys:String x:Key="Settings_ChooseLanguage">CHỌN NGÔN NGỮ</sys:String>
+    <sys:String x:Key="Lang_Vietnamese">Tiếng Việt</sys:String>
+    <sys:String x:Key="Lang_English">English</sys:String>
+
+    <!-- Toast buttons -->
+    <sys:String x:Key="Toast_Snooze10m">Hoãn 10 phút</sys:String>
+    <sys:String x:Key="Toast_Snooze1h">Hoãn 1 giờ</sys:String>
+    <sys:String x:Key="Toast_Dismiss">Bỏ qua</sys:String>
+    <!-- Email section title -->
+    <sys:String x:Key="Page_Email">Thông báo qua email</sys:String>
+    <!-- Email: missing field labels -->
+    <sys:String x:Key="Settings_ApiKey">API Key</sys:String>
+
+    <!-- Status / messages -->
+    <sys:String x:Key="Msg_SettingsSaved">Đã lưu cài đặt.</sys:String>
+    <sys:String x:Key="Msg_TestEmailSent">Đã gửi email thử thành công!</sys:String>
+    <sys:String x:Key="Msg_TestEmailFailed">Gửi email thất bại. Kiểm tra lại cài đặt.</sys:String>
+    <sys:String x:Key="Msg_BackupCreated">Đã sao lưu:</sys:String>
+    <sys:String x:Key="Msg_RestoreComplete">Khôi phục xong. Nên khởi động lại ứng dụng.</sys:String>
+    <sys:String x:Key="Msg_Saving">Đang lưu…</sys:String>
+    <sys:String x:Key="Msg_Loading">Đang tải…</sys:String>
+    <!-- Export / Import -->
+    <sys:String x:Key="Export_Title">Xuất công việc</sys:String>
+    <sys:String x:Key="Export_Exporting">Đang xuất…</sys:String>
+    <sys:String x:Key="Export_Success">Đã xuất công việc ra {0}</sys:String>
+    <sys:String x:Key="Import_Title">Nhập công việc</sys:String>
+    <sys:String x:Key="Import_Importing">Đang nhập…</sys:String>
+    <sys:String x:Key="Import_Success">Đã nhập {0} công việc.</sys:String>
+    <sys:String x:Key="Import_MergePrompt">Chọn cách nhập:&#x0a;  Có = Gộp với công việc hiện có (bỏ qua trùng lặp)&#x0a;  Không = Thay thế toàn bộ công việc hiện có&#x0a;  Hủy = Hủy nhập</sys:String>
+
+    <!-- Tray -->
+    <sys:String x:Key="Tray_Show">📋  Mở TodoApp</sys:String>
+    <sys:String x:Key="Tray_QuickAdd">➕  Thêm việc nhanh</sys:String>
+    <sys:String x:Key="Tray_Exit">✕  Thoát</sys:String>
+    <sys:String x:Key="Tray_MinimizedMsg">Ứng dụng vẫn đang chạy trong khay hệ thống. Nhấn vào biểu tượng để mở lại.</sys:String>
+
+    <!-- Priorities -->
+    <sys:String x:Key="Priority_Low">Thấp</sys:String>
+    <sys:String x:Key="Priority_Medium">Trung bình</sys:String>
+    <sys:String x:Key="Priority_High">Cao</sys:String>
+    <sys:String x:Key="Priority_Critical">Khẩn cấp</sys:String>
+
+    <!-- Calendar page -->
+    <sys:String x:Key="Page_Calendar">Lịch</sys:String>
+    <sys:String x:Key="Cal_Today">Hôm nay</sys:String>
+    <sys:String x:Key="Cal_SelectDay">Chọn một ngày để xem công việc</sys:String>
+    <sys:String x:Key="Cal_Tasks">việc</sys:String>
+    <sys:String x:Key="Cal_NoDueTasks">Không có việc trong ngày này</sys:String>
+
+    <!-- Task detail — Recurring -->
+    <sys:String x:Key="Task_Repeat">Lặp lại</sys:String>
+    <sys:String x:Key="Task_RepeatEvery">LẶP LẠI MỖI</sys:String>
+    <sys:String x:Key="Recur_Daily">Hàng ngày</sys:String>
+    <sys:String x:Key="Recur_Weekly">Hàng tuần</sys:String>
+    <sys:String x:Key="Recur_Monthly">Hàng tháng</sys:String>
+    <sys:String x:Key="Recur_Custom">Tùy chỉnh</sys:String>
+    <sys:String x:Key="Recur_DayOfMonth">Ngày trong tháng:</sys:String>
+    <sys:String x:Key="Recur_EveryNDays">Mỗi</sys:String>
+    <sys:String x:Key="Recur_Days">ngày</sys:String>
+    <sys:String x:Key="Recur_EndDate">Kết thúc lúc:</sys:String>
+    <sys:String x:Key="Recur_NoEndDate">Không giới hạn</sys:String>
+    <sys:String x:Key="Day_Mon">T2</sys:String>
+    <sys:String x:Key="Day_Tue">T3</sys:String>
+    <sys:String x:Key="Day_Wed">T4</sys:String>
+    <sys:String x:Key="Day_Thu">T5</sys:String>
+    <sys:String x:Key="Day_Fri">T6</sys:String>
+    <sys:String x:Key="Day_Sat">T7</sys:String>
+    <sys:String x:Key="Day_Sun">CN</sys:String>
+
+    <!-- Labels -->
+    <sys:String x:Key="Page_Labels">Nhãn</sys:String>
+    <sys:String x:Key="Label_AddNew">THÊM NHÃN MỚI</sys:String>
+    <sys:String x:Key="Label_NameHint">Tên nhãn…</sys:String>
+    <sys:String x:Key="Label_ChooseColor">Chọn màu:</sys:String>
+    <sys:String x:Key="Label_Empty">Chưa có nhãn nào — thêm nhãn đầu tiên ở trên</sys:String>
+    <sys:String x:Key="Label_Section">NHÃN</sys:String>
+    <sys:String x:Key="Label_NoLabels">Chưa có nhãn. Tạo nhãn tại trang Nhãn.</sys:String>
+
+    <!-- Goals -->
+    <sys:String x:Key="Goal_AddNew">Thêm mục tiêu</sys:String>
+    <sys:String x:Key="Goal_AddFormTitle">THÊM MỤC TIÊU MỚI</sys:String>
+    <sys:String x:Key="Goal_EditFormTitle">CHỈNH SỬA MỤC TIÊU</sys:String>
+    <sys:String x:Key="Goal_TitleHint">Tên mục tiêu…</sys:String>
+    <sys:String x:Key="Goal_DescHint">Mô tả (tùy chọn)…</sys:String>
+    <sys:String x:Key="Goal_Days">ngày</sys:String>
+    <sys:String x:Key="Goal_CheckToday">Tick hôm nay</sys:String>
+    <sys:String x:Key="Goal_Done">Hoàn thành</sys:String>
+    <sys:String x:Key="Goal_Empty">Chưa có mục tiêu nào</sys:String>
+    <sys:String x:Key="Goal_EmptyHint">Đặt một mục tiêu để bắt đầu hành trình!</sys:String>
+    <sys:String x:Key="Goal_CelebTitle">Chúc mừng! 🎉</sys:String>
+    <sys:String x:Key="Goal_CelebSubtitle">Bạn đã hoàn thành mục tiêu của mình. Tuyệt vời!</sys:String>
+    <sys:String x:Key="Goal_CelebClose">Tuyệt vời!</sys:String>
+
+    <!-- Watch Later -->
+    <sys:String x:Key="Page_WatchLater">Xem sau</sys:String>
+    <sys:String x:Key="WatchLater_UrlHint">URL</sys:String>
+    <sys:String x:Key="WatchLater_NotesHint">GHI CHÚ</sys:String>
+    <sys:String x:Key="WatchLater_Add">Thêm mới</sys:String>
+    <sys:String x:Key="WatchLater_AddTitle">THÊM MỤC XEM SAU</sys:String>
+    <sys:String x:Key="WatchLater_TitleHint">TIÊU ĐỀ</sys:String>
+    <sys:String x:Key="WatchLater_ContentHint">URL hoặc nội dung cần xem sau…</sys:String>
+    <sys:String x:Key="WatchLater_Save">Lưu</sys:String>
+    <sys:String x:Key="WatchLater_Fetching">Đang tải thumbnail…</sys:String>
+    <sys:String x:Key="WatchLater_Empty">Chưa có mục nào</sys:String>
+    <sys:String x:Key="WatchLater_EmptyHint">Bấm "Thêm mới" hoặc tích "Xem sau?" trong Ghi chú nhanh</sys:String>
+
+    <!-- Quick Note -->
+    <sys:String x:Key="QuickNote_Title">Ghi chú nhanh</sys:String>
+    <sys:String x:Key="QuickNote_Hint">Ctrl+Alt+Q · Enter lưu · Esc đóng</sys:String>
+    <sys:String x:Key="QuickNote_TitlePlaceholder">Tiêu đề (tùy chọn)…</sys:String>
+    <sys:String x:Key="QuickNote_NotePlaceholder">Ghi chú nhanh của bạn…</sys:String>
+    <sys:String x:Key="QuickNote_SaveBtn">Lưu vào danh sách</sys:String>
+    <sys:String x:Key="QuickNote_WatchLaterSaveBtn">Lưu vào Xem sau</sys:String>
+    <sys:String x:Key="QuickNote_WatchLater">Xem sau?</sys:String>
+    <sys:String x:Key="QuickNote_Preview">XEM TRƯỚC</sys:String>
+    <sys:String x:Key="QuickNote_EscHint">Nhấn Esc để đóng</sys:String>
+
+    <!-- Quick Add -->
+    <sys:String x:Key="QuickAdd_Title">Thêm việc nhanh</sys:String>
+    <sys:String x:Key="QuickAdd_Hint">Enter để lưu · Esc để đóng</sys:String>
+    <sys:String x:Key="QuickAdd_Placeholder">Nhập tiêu đề công việc…</sys:String>
+    <sys:String x:Key="QuickAdd_AIPlaceholder">Mô tả tự nhiên, vd: "Nộp báo cáo ngày mai lúc 5 giờ"…</sys:String>
+    <sys:String x:Key="QuickAdd_Priority">ĐỘ ƯU TIÊN</sys:String>
+    <sys:String x:Key="QuickAdd_Deadline">Hạn (tùy chọn)</sys:String>
+    <sys:String x:Key="QuickAdd_EscHint">Nhấn Esc để hủy</sys:String>
+    <sys:String x:Key="QuickAdd_AddTask">Thêm</sys:String>
+    <sys:String x:Key="QuickAdd_AIParseBtn">✨ AI Phân tích</sys:String>
+    <sys:String x:Key="QuickAdd_AIParsing">Đang phân tích…</sys:String>
+
+    <!-- AI Assistant -->
+    <sys:String x:Key="AI_TabTitle">Trợ lý AI</sys:String>
+    <sys:String x:Key="AI_EnableToggle">Bật tính năng AI (Gemini)</sys:String>
+    <sys:String x:Key="AI_ApiKeyLabel">GEMINI API KEY</sys:String>
+    <sys:String x:Key="AI_ApiKeyHint">AIzaSy…</sys:String>
+    <sys:String x:Key="AI_ModelLabel">MODEL</sys:String>
+    <sys:String x:Key="AI_TestBtn">Kiểm tra kết nối</sys:String>
+    <sys:String x:Key="AI_SuggestTagsBtn">🏷 Gợi ý tag</sys:String>
+    <sys:String x:Key="AI_SuggestingTags">Đang gợi ý…</sys:String>
+    <sys:String x:Key="AI_TagsSuggested">Tag gợi ý:</sys:String>
+    <sys:String x:Key="AI_NotConfigured">AI chưa được bật. Cấu hình tại Cài đặt → Trợ lý AI.</sys:String>
+    <sys:String x:Key="AI_GetKeyHint">Lấy API Key miễn phí tại aistudio.google.com</sys:String>
+
+</ResourceDictionary>

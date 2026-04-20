@@ -1,0 +1,986 @@
+<UserControl x:Class="TodoApp.Views.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:vm="clr-namespace:TodoApp.ViewModels"
+             d:DataContext="{d:DesignInstance Type=vm:SettingsViewModel}"
+             mc:Ignorable="d"
+             Background="{DynamicResource AppBackground}">
+
+    <UserControl.Resources>
+
+        <!-- Section header -->
+        <Style x:Key="SectionTitle" TargetType="TextBlock">
+            <Setter Property="FontSize"   Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+            <Setter Property="Margin"     Value="0,0,0,16"/>
+        </Style>
+
+        <!-- Subgroup label -->
+        <Style x:Key="GroupLabel" TargetType="TextBlock">
+            <Setter Property="FontSize"   Value="11"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}"/>
+            <Setter Property="Margin"     Value="0,16,0,8"/>
+        </Style>
+
+        <!-- Settings card -->
+        <Style x:Key="SettingCard" TargetType="Border">
+            <Setter Property="Background"      Value="{DynamicResource SurfaceBrush}"/>
+            <Setter Property="CornerRadius"    Value="8"/>
+            <Setter Property="Padding"         Value="20,16"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush"     Value="{DynamicResource DividerBrush}"/>
+            <Setter Property="Margin"          Value="0,0,0,12"/>
+        </Style>
+
+        <!-- Left tab button style -->
+        <Style x:Key="TabButtonStyle" TargetType="RadioButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border x:Name="Bd" CornerRadius="6" Padding="12,9"
+                                Background="Transparent" Cursor="Hand">
+                            <ContentPresenter/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="Bd" Property="Background"
+                                        Value="{DynamicResource Primary50Brush}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background"
+                                        Value="{DynamicResource Primary50Brush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}"/>
+            <Setter Property="FontSize"   Value="13"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Margin"     Value="0,1"/>
+        </Style>
+
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>  <!-- Header -->
+            <RowDefinition Height="*"/>     <!-- Content -->
+            <RowDefinition Height="Auto"/>  <!-- Footer -->
+        </Grid.RowDefinitions>
+
+        <!-- ── Header ─────────────────────────────────────────────────────── -->
+        <Border Grid.Row="0"
+                Background="{DynamicResource SurfaceBrush}"
+                BorderThickness="0,0,0,1"
+                BorderBrush="{DynamicResource DividerBrush}"
+                Padding="24,14">
+            <StackPanel Orientation="Horizontal">
+                <materialDesign:PackIcon Kind="Cog" Width="22" Height="22"
+                                         Foreground="{DynamicResource PrimaryBrush}"
+                                         VerticalAlignment="Center"/>
+                <TextBlock Text="{DynamicResource Page_Settings}"
+                           FontSize="20" FontWeight="Bold"
+                           Foreground="{DynamicResource TextPrimaryBrush}"
+                           Margin="10,0,0,0" VerticalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+
+        <!-- ── Left nav + content ─────────────────────────────────────────── -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="190"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Left nav -->
+            <Border Grid.Column="0"
+                    Background="{DynamicResource SurfaceBrush}"
+                    BorderThickness="0,0,1,0"
+                    BorderBrush="{DynamicResource DividerBrush}"
+                    Padding="12,16,12,0">
+                <StackPanel>
+                    <RadioButton Style="{StaticResource TabButtonStyle}"
+                                 GroupName="SettingsTabs" IsChecked="True"
+                                 Command="{Binding SwitchTabCommand}" CommandParameter="General">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="TuneVariant" Width="16" Height="16" VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource Settings_General}" Margin="8,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </RadioButton>
+                    <RadioButton Style="{StaticResource TabButtonStyle}"
+                                 GroupName="SettingsTabs"
+                                 Command="{Binding SwitchTabCommand}" CommandParameter="Appearance">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Palette" Width="16" Height="16" VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource Settings_Appearance}" Margin="8,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </RadioButton>
+                    <RadioButton Style="{StaticResource TabButtonStyle}"
+                                 GroupName="SettingsTabs"
+                                 Command="{Binding SwitchTabCommand}" CommandParameter="Notifications">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Bell" Width="16" Height="16" VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource Settings_Notifications}" Margin="8,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </RadioButton>
+                    <RadioButton Style="{StaticResource TabButtonStyle}"
+                                 GroupName="SettingsTabs"
+                                 Command="{Binding SwitchTabCommand}" CommandParameter="Sound">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="VolumeHigh" Width="16" Height="16" VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource Settings_Sound}" Margin="8,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </RadioButton>
+                    <RadioButton Style="{StaticResource TabButtonStyle}"
+                                 GroupName="SettingsTabs"
+                                 Command="{Binding SwitchTabCommand}" CommandParameter="Email">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Email" Width="16" Height="16" VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource Settings_Email}" Margin="8,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </RadioButton>
+                    <RadioButton Style="{StaticResource TabButtonStyle}"
+                                 GroupName="SettingsTabs"
+                                 Command="{Binding SwitchTabCommand}" CommandParameter="Backup">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="DatabaseExport" Width="16" Height="16" VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource Settings_Backup}" Margin="8,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </RadioButton>
+                    <RadioButton Style="{StaticResource TabButtonStyle}"
+                                 GroupName="SettingsTabs"
+                                 Command="{Binding SwitchTabCommand}" CommandParameter="Focus">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="TimerSand" Width="16" Height="16" VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource Settings_Focus}" Margin="8,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </RadioButton>
+                    <RadioButton Style="{StaticResource TabButtonStyle}"
+                                 GroupName="SettingsTabs"
+                                 Command="{Binding SwitchTabCommand}" CommandParameter="Language">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Translate" Width="16" Height="16" VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource Settings_Language}" Margin="8,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </RadioButton>
+                </StackPanel>
+            </Border>
+
+            <!-- Right content panels -->
+            <ScrollViewer Grid.Column="1"
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled">
+                <StackPanel Margin="28,20,28,20">
+
+                    <!-- ── GENERAL ─────────────────────────────────────────── -->
+                    <StackPanel>
+                        <StackPanel.Style>
+                            <Style TargetType="StackPanel">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ActiveTab}" Value="General">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+
+                        <TextBlock Text="{DynamicResource Settings_General}" Style="{StaticResource SectionTitle}"/>
+
+                        <Border Style="{StaticResource SettingCard}">
+                            <StackPanel>
+                                <TextBlock Text="{DynamicResource Settings_Startup}" Style="{StaticResource GroupLabel}" Margin="0,0,0,8"/>
+                                <CheckBox Content="{DynamicResource Settings_RunOnStartup}"
+                                          IsChecked="{Binding RunOnStartup}"
+                                          Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,8"/>
+                                <CheckBox Content="{DynamicResource Settings_StartMinimized}"
+                                          IsChecked="{Binding StartMinimized}"
+                                          Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,8"/>
+                                <CheckBox Content="{DynamicResource Settings_MinimizeToTray}"
+                                          IsChecked="{Binding MinimizeToTray}"
+                                          Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,8"/>
+                                <CheckBox Content="{DynamicResource Settings_ShowInTaskbar}"
+                                          IsChecked="{Binding ShowInTaskbar}"
+                                          Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource SettingCard}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="160"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="{DynamicResource Settings_DefaultView}"
+                                               FontSize="13" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                    <TextBlock Text="{DynamicResource Settings_DefaultViewHint}"
+                                               FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,2,0,0"/>
+                                </StackPanel>
+                                <ComboBox Grid.Column="1"
+                                          SelectedValue="{Binding DefaultView}"
+                                          SelectedValuePath="Tag"
+                                          VerticalAlignment="Center">
+                                    <ComboBoxItem Content="{DynamicResource Nav_TaskList}"  Tag="List"/>
+                                    <ComboBoxItem Content="{DynamicResource Nav_KanbanBoard}" Tag="Kanban"/>
+                                    <ComboBoxItem Content="{DynamicResource Nav_Statistics}" Tag="Statistics"/>
+                                </ComboBox>
+                            </Grid>
+                        </Border>
+
+                        <Border Style="{StaticResource SettingCard}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="160"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="{DynamicResource Settings_GlobalHotkey}"
+                                               FontSize="13" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                    <TextBlock Text="{DynamicResource Settings_GlobalHotkeyHint}"
+                                               FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,2,0,0"/>
+                                </StackPanel>
+                                <TextBox Grid.Column="1"
+                                         Text="{Binding GlobalHotkey, UpdateSourceTrigger=PropertyChanged}"
+                                         Style="{DynamicResource RoundedTextBoxStyle}"
+                                         VerticalAlignment="Center"
+                                         FontFamily="Consolas"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- ── APPEARANCE ──────────────────────────────────────── -->
+                    <StackPanel>
+                        <StackPanel.Style>
+                            <Style TargetType="StackPanel">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ActiveTab}" Value="Appearance">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+
+                        <TextBlock Text="{DynamicResource Settings_Appearance}" Style="{StaticResource SectionTitle}"/>
+
+                        <Border Style="{StaticResource SettingCard}">
+                            <StackPanel>
+                                <TextBlock Text="{DynamicResource Str_ThemeMode}" Style="{StaticResource GroupLabel}" Margin="0,0,0,8"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <RadioButton Content="{DynamicResource Str_ThemeLight}"
+                                                 GroupName="ThemeMode" IsChecked="True"
+                                                 Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,16,0"
+                                                 Command="{Binding ApplyThemeModeCommand}" CommandParameter="Light"/>
+                                    <RadioButton Content="{DynamicResource Str_ThemeDark}"
+                                                 GroupName="ThemeMode"
+                                                 Foreground="{DynamicResource TextPrimaryBrush}"
+                                                 Command="{Binding ApplyThemeModeCommand}" CommandParameter="Dark"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Auto Dark Mode -->
+                        <Border Style="{StaticResource SettingCard}">
+                            <StackPanel>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0">
+                                        <TextBlock Text="{DynamicResource Settings_AutoDarkMode}"
+                                                   FontSize="13" FontWeight="Medium"
+                                                   Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                        <TextBlock Text="{DynamicResource Settings_AutoDarkModeHint}"
+                                                   FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}"
+                                                   Margin="0,2,0,0"/>
+                                    </StackPanel>
+                                    <ToggleButton Grid.Column="1"
+                                                  IsChecked="{Binding AutoDarkMode}"
+                                                  Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                                  VerticalAlignment="Center"/>
+                                </Grid>
+                                <!-- Hour pickers — visible only when AutoDarkMode is on -->
+                                <StackPanel Margin="0,14,0,0">
+                                    <StackPanel.Style>
+                                        <Style TargetType="StackPanel">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding AutoDarkMode}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </StackPanel.Style>
+                                    <Grid Margin="0,0,0,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="70"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0"
+                                                   Text="{DynamicResource Settings_DarkModeStart}"
+                                                   Foreground="{DynamicResource TextPrimaryBrush}"
+                                                   VerticalAlignment="Center"/>
+                                        <TextBox Grid.Column="1"
+                                                 Text="{Binding DarkModeStartHour, UpdateSourceTrigger=PropertyChanged}"
+                                                 Style="{DynamicResource RoundedTextBoxStyle}"
+                                                 FontFamily="Consolas" TextAlignment="Center"/>
+                                    </Grid>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="70"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0"
+                                                   Text="{DynamicResource Settings_LightModeStart}"
+                                                   Foreground="{DynamicResource TextPrimaryBrush}"
+                                                   VerticalAlignment="Center"/>
+                                        <TextBox Grid.Column="1"
+                                                 Text="{Binding LightModeStartHour, UpdateSourceTrigger=PropertyChanged}"
+                                                 Style="{DynamicResource RoundedTextBoxStyle}"
+                                                 FontFamily="Consolas" TextAlignment="Center"/>
+                                    </Grid>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource SettingCard}">
+                            <StackPanel>
+                                <TextBlock Text="{DynamicResource Str_ColorPreset}" Style="{StaticResource GroupLabel}" Margin="0,0,0,8"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <Border Width="32" Height="32" CornerRadius="16" Background="#E91E63"
+                                            Cursor="Hand" Margin="0,0,8,0" ToolTip="Pink">
+                                        <Border.InputBindings>
+                                            <MouseBinding MouseAction="LeftClick"
+                                                          Command="{Binding ApplyPresetCommand}" CommandParameter="Pink"/>
+                                        </Border.InputBindings>
+                                    </Border>
+                                    <Border Width="32" Height="32" CornerRadius="16" Background="#9C27B0"
+                                            Cursor="Hand" Margin="0,0,8,0" ToolTip="Purple">
+                                        <Border.InputBindings>
+                                            <MouseBinding MouseAction="LeftClick"
+                                                          Command="{Binding ApplyPresetCommand}" CommandParameter="Purple"/>
+                                        </Border.InputBindings>
+                                    </Border>
+                                    <Border Width="32" Height="32" CornerRadius="16" Background="#2196F3"
+                                            Cursor="Hand" Margin="0,0,8,0" ToolTip="Blue">
+                                        <Border.InputBindings>
+                                            <MouseBinding MouseAction="LeftClick"
+                                                          Command="{Binding ApplyPresetCommand}" CommandParameter="Blue"/>
+                                        </Border.InputBindings>
+                                    </Border>
+                                    <Border Width="32" Height="32" CornerRadius="16" Background="#4CAF50"
+                                            Cursor="Hand" Margin="0,0,8,0" ToolTip="Green">
+                                        <Border.InputBindings>
+                                            <MouseBinding MouseAction="LeftClick"
+                                                          Command="{Binding ApplyPresetCommand}" CommandParameter="Green"/>
+                                        </Border.InputBindings>
+                                    </Border>
+                                    <Border Width="32" Height="32" CornerRadius="16" Background="#FF5722"
+                                            Cursor="Hand" ToolTip="Orange">
+                                        <Border.InputBindings>
+                                            <MouseBinding MouseAction="LeftClick"
+                                                          Command="{Binding ApplyPresetCommand}" CommandParameter="Orange"/>
+                                        </Border.InputBindings>
+                                    </Border>
+                                </StackPanel>
+                                <TextBlock Text="{DynamicResource Str_ColorPresetHint}"
+                                           FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}"
+                                           Margin="0,10,0,0"/>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource SettingCard}">
+                            <StackPanel>
+                                <TextBlock Text="{DynamicResource Settings_Effects}" Style="{StaticResource GroupLabel}" Margin="0,0,0,8"/>
+                                <CheckBox Content="{DynamicResource Settings_UseAnimations}"
+                                          IsChecked="{Binding UseAnimations}"
+                                          Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,8"/>
+                                <CheckBox Content="{DynamicResource Settings_ShowConfetti}"
+                                          IsChecked="{Binding ShowConfetti}"
+                                          Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- ── NOTIFICATIONS ───────────────────────────────────── -->
+                    <StackPanel>
+                        <StackPanel.Style>
+                            <Style TargetType="StackPanel">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ActiveTab}" Value="Notifications">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+
+                        <TextBlock Text="{DynamicResource Settings_Notifications}" Style="{StaticResource SectionTitle}"/>
+
+                        <Border Style="{StaticResource SettingCard}">
+                            <StackPanel>
+                                <CheckBox Content="{DynamicResource Settings_EnableNotifications}"
+                                          IsChecked="{Binding NotificationsEnabled}"
+                                          FontSize="14" FontWeight="Medium"
+                                          Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,12"/>
+
+                                <TextBlock Text="{DynamicResource Settings_ReminderTimes}" Style="{StaticResource GroupLabel}" Margin="0,0,0,8"/>
+                                <CheckBox Content="{DynamicResource Settings_Notify1Day}"
+                                          IsChecked="{Binding NotifyOneDayBefore}"
+                                          Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,6"/>
+                                <CheckBox Content="{DynamicResource Settings_Notify1Hour}"
+                                          IsChecked="{Binding NotifyOneHourBefore}"
+                                          Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,6"/>
+                                <CheckBox Content="{DynamicResource Settings_Notify5Min}"
+                                          IsChecked="{Binding NotifyFiveMinBefore}"
+                                          Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,6"/>
+                                <CheckBox Content="{DynamicResource Settings_NotifyAtDeadline}"
+                                          IsChecked="{Binding NotifyAtDeadline}"
+                                          Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,6"/>
+                                <CheckBox Content="{DynamicResource Settings_NotifyOverdue}"
+                                          IsChecked="{Binding NotifyOneDayAfter}"
+                                          Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource SettingCard}">
+                            <StackPanel>
+                                <TextBlock Text="{DynamicResource Settings_ToastSettings}" Style="{StaticResource GroupLabel}" Margin="0,0,0,8"/>
+                                <Grid Margin="0,0,0,10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="80"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="{DynamicResource Settings_ToastDuration}"
+                                               Foreground="{DynamicResource TextPrimaryBrush}"
+                                               VerticalAlignment="Center"/>
+                                    <TextBox Grid.Column="1"
+                                             Text="{Binding ToastDisplaySeconds, UpdateSourceTrigger=PropertyChanged}"
+                                             Style="{DynamicResource RoundedTextBoxStyle}"
+                                             FontFamily="Consolas" TextAlignment="Center"/>
+                                </Grid>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="80"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="{DynamicResource Settings_CheckInterval}"
+                                               Foreground="{DynamicResource TextPrimaryBrush}"
+                                               VerticalAlignment="Center"/>
+                                    <TextBox Grid.Column="1"
+                                             Text="{Binding CheckIntervalSeconds, UpdateSourceTrigger=PropertyChanged}"
+                                             Style="{DynamicResource RoundedTextBoxStyle}"
+                                             FontFamily="Consolas" TextAlignment="Center"/>
+                                </Grid>
+                                <CheckBox Content="{DynamicResource Settings_DetectMissed}"
+                                          IsChecked="{Binding DetectMissedOnStartup}"
+                                          Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,12,0,0"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- ── SOUND ───────────────────────────────────────────── -->
+                    <StackPanel>
+                        <StackPanel.Style>
+                            <Style TargetType="StackPanel">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ActiveTab}" Value="Sound">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+
+                        <TextBlock Text="{DynamicResource Settings_Sound}" Style="{StaticResource SectionTitle}"/>
+
+                        <Border Style="{StaticResource SettingCard}">
+                            <StackPanel>
+                                <CheckBox Content="{DynamicResource Settings_EnableSound}"
+                                          IsChecked="{Binding SoundEnabled}"
+                                          FontSize="14" FontWeight="Medium"
+                                          Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,16"/>
+
+                                <TextBlock Text="{DynamicResource Settings_MasterVolume}" Style="{StaticResource GroupLabel}" Margin="0,0,0,4"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="40"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Slider Grid.Column="0"
+                                            Value="{Binding SoundVolume}"
+                                            Minimum="0" Maximum="1" SmallChange="0.05"
+                                            Foreground="{DynamicResource PrimaryBrush}"
+                                            VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="1"
+                                               Text="{Binding SoundVolume, StringFormat={}{0:P0}}"
+                                               FontSize="12" FontFamily="Consolas"
+                                               Foreground="{DynamicResource TextSecondaryBrush}"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Center"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource SettingCard}">
+                            <StackPanel>
+                                <CheckBox Content="{DynamicResource Settings_PlayCompletion}"
+                                          IsChecked="{Binding PlayCompletionSound}"
+                                          Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,12"/>
+
+                                <TextBlock Text="{DynamicResource Settings_CustomSound}" Style="{StaticResource GroupLabel}" Margin="0,0,0,8"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="8"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="8"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Grid.Column="0"
+                                             Text="{Binding CompletionSoundPath, UpdateSourceTrigger=PropertyChanged}"
+                                             Style="{DynamicResource RoundedTextBoxStyle}"
+                                             materialDesign:HintAssist.Hint="{DynamicResource Settings_SoundHint}"
+                                             IsReadOnly="True"/>
+                                    <Button Grid.Column="2"
+                                            Content="{DynamicResource Btn_Browse}"
+                                            Style="{DynamicResource GhostButtonStyle}"
+                                            Command="{Binding BrowseCompletionSoundCommand}"
+                                            Padding="12,8"/>
+                                    <Button Grid.Column="4"
+                                            Content="{DynamicResource Btn_TestSound}"
+                                            Style="{DynamicResource GhostButtonStyle}"
+                                            Command="{Binding TestCompletionSoundCommand}"
+                                            IsEnabled="{Binding SoundEnabled}"
+                                            Padding="12,8"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- ── EMAIL ───────────────────────────────────────────── -->
+                    <StackPanel>
+                        <StackPanel.Style>
+                            <Style TargetType="StackPanel">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ActiveTab}" Value="Email">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+
+                        <TextBlock Text="{DynamicResource Page_Email}" Style="{StaticResource SectionTitle}"/>
+
+                        <Border Style="{StaticResource SettingCard}">
+                            <StackPanel>
+                                <CheckBox Content="{DynamicResource Settings_EnableEmail}"
+                                          IsChecked="{Binding EmailEnabled}"
+                                          FontSize="14" FontWeight="Medium"
+                                          Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,12"/>
+
+                                <TextBlock Text="{DynamicResource Settings_EmailProvider}" Style="{StaticResource GroupLabel}" Margin="0,0,0,8"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <RadioButton Content="{DynamicResource Settings_BrevoRecommended}"
+                                                 GroupName="EmailProvider"
+                                                 IsChecked="True"
+                                                 Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,16,0"/>
+                                    <RadioButton Content="SMTP"
+                                                 GroupName="EmailProvider"
+                                                 Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Brevo settings -->
+                        <Border Style="{StaticResource SettingCard}">
+                            <StackPanel>
+                                <TextBlock Text="{DynamicResource Settings_BrevoApi}" Style="{StaticResource GroupLabel}" Margin="0,0,0,8"/>
+                                <TextBlock Text="{DynamicResource Settings_ApiKey}" FontSize="12"
+                                           Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,0,4"/>
+                                <TextBox Text="{Binding BrevoApiKey, UpdateSourceTrigger=PropertyChanged}"
+                                         Style="{DynamicResource RoundedTextBoxStyle}"
+                                         materialDesign:HintAssist.Hint="xkeysib-…"
+                                         FontFamily="Consolas" Margin="0,0,0,10"/>
+
+                                <TextBlock Text="{DynamicResource Settings_SenderEmail}" FontSize="12"
+                                           Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,0,4"/>
+                                <TextBox Text="{Binding SenderEmail, UpdateSourceTrigger=PropertyChanged}"
+                                         Style="{DynamicResource RoundedTextBoxStyle}"
+                                         materialDesign:HintAssist.Hint="you@example.com"
+                                         Margin="0,0,0,10"/>
+
+                                <TextBlock Text="{DynamicResource Settings_SenderName}" FontSize="12"
+                                           Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,0,4"/>
+                                <TextBox Text="{Binding SenderName, UpdateSourceTrigger=PropertyChanged}"
+                                         Style="{DynamicResource RoundedTextBoxStyle}"
+                                         Margin="0,0,0,10"/>
+
+                                <TextBlock Text="{DynamicResource Settings_Recipient}" Style="{StaticResource GroupLabel}" Margin="0,8,0,8"/>
+                                <TextBlock Text="{DynamicResource Settings_RecipientEmail}" FontSize="12"
+                                           Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,0,4"/>
+                                <TextBox Text="{Binding RecipientEmail, UpdateSourceTrigger=PropertyChanged}"
+                                         Style="{DynamicResource RoundedTextBoxStyle}"
+                                         materialDesign:HintAssist.Hint="recipient@example.com"
+                                         Margin="0,0,0,10"/>
+                                <TextBlock Text="{DynamicResource Settings_RecipientName}" FontSize="12"
+                                           Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,0,4"/>
+                                <TextBox Text="{Binding RecipientName, UpdateSourceTrigger=PropertyChanged}"
+                                         Style="{DynamicResource RoundedTextBoxStyle}"
+                                         Margin="0,0,0,10"/>
+
+                                <TextBlock Text="{DynamicResource Settings_SendEmailFor}" Style="{StaticResource GroupLabel}" Margin="0,4,0,8"/>
+                                <CheckBox Content="{DynamicResource Settings_Email1Day}" IsChecked="{Binding EmailOneDayBefore}"
+                                          Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,6"/>
+                                <CheckBox Content="{DynamicResource Settings_Email1Hour}" IsChecked="{Binding EmailOneHourBefore}"
+                                          Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,6"/>
+                                <CheckBox Content="{DynamicResource Settings_Email5Min}" IsChecked="{Binding EmailFiveMinBefore}"
+                                          Foreground="{DynamicResource TextPrimaryBrush}"/>
+
+                                <Button Content="{DynamicResource Settings_TestEmail}"
+                                        Style="{DynamicResource GhostButtonStyle}"
+                                        Command="{Binding TestEmailCommand}"
+                                        HorizontalAlignment="Left"
+                                        Margin="0,16,0,0" Padding="16,8"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- ── BACKUP ──────────────────────────────────────────── -->
+                    <StackPanel>
+                        <StackPanel.Style>
+                            <Style TargetType="StackPanel">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ActiveTab}" Value="Backup">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+
+                        <TextBlock Text="{DynamicResource Page_Backup}" Style="{StaticResource SectionTitle}"/>
+
+                        <Border Style="{StaticResource SettingCard}">
+                            <StackPanel>
+                                <CheckBox Content="{DynamicResource Settings_AutoBackup}"
+                                          IsChecked="{Binding AutoBackupEnabled}"
+                                          FontSize="14" FontWeight="Medium"
+                                          Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,12"/>
+                                <CheckBox Content="{DynamicResource Settings_BackupOnExit}"
+                                          IsChecked="{Binding BackupOnExit}"
+                                          Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,12"/>
+
+                                <Grid Margin="0,0,0,10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="80"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{DynamicResource Settings_KeepBackups}"
+                                               Foreground="{DynamicResource TextPrimaryBrush}"
+                                               VerticalAlignment="Center"/>
+                                    <TextBox Grid.Column="1"
+                                             Text="{Binding MaxBackupFiles, UpdateSourceTrigger=PropertyChanged}"
+                                             Style="{DynamicResource RoundedTextBoxStyle}"
+                                             FontFamily="Consolas" TextAlignment="Center"/>
+                                </Grid>
+
+                                <TextBlock Text="{DynamicResource Settings_BackupFolder}" Style="{StaticResource GroupLabel}" Margin="0,4,0,8"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="8"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Grid.Column="0"
+                                             Text="{Binding BackupDirectory, UpdateSourceTrigger=PropertyChanged}"
+                                             Style="{DynamicResource RoundedTextBoxStyle}"
+                                             materialDesign:HintAssist.Hint="Default: %AppData%\TodoApp\Backups\"
+                                             IsReadOnly="True"/>
+                                    <Button Grid.Column="2"
+                                            Content="{DynamicResource Btn_Browse}"
+                                            Style="{DynamicResource GhostButtonStyle}"
+                                            Command="{Binding BrowseBackupDirCommand}"
+                                            Padding="12,8"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource SettingCard}">
+                            <StackPanel>
+                                <TextBlock Text="{Binding LastBackupText}"
+                                           FontSize="12"
+                                           Foreground="{DynamicResource TextSecondaryBrush}"
+                                           Margin="0,0,0,12"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Content="{DynamicResource Settings_BackupNow}"
+                                            Style="{DynamicResource PrimaryButtonStyle}"
+                                            Command="{Binding BackupNowCommand}"
+                                            Padding="16,8" Margin="0,0,12,0"/>
+                                    <Button Content="{DynamicResource Settings_Restore}"
+                                            Style="{DynamicResource GhostButtonStyle}"
+                                            Command="{Binding RestoreCommand}"
+                                            Padding="16,8"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Export / Import card -->
+                        <Border Style="{StaticResource SettingCard}">
+                            <StackPanel>
+                                <TextBlock Text="{DynamicResource Settings_ExportImport}"
+                                           Style="{StaticResource GroupLabel}" Margin="0,0,0,4"/>
+                                <TextBlock Text="{DynamicResource Settings_ExportImportHint}"
+                                           FontSize="12"
+                                           Foreground="{DynamicResource TextSecondaryBrush}"
+                                           Margin="0,0,0,12" TextWrapping="Wrap"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Content="{DynamicResource Settings_ExportTasks}"
+                                            Style="{DynamicResource PrimaryButtonStyle}"
+                                            Command="{Binding ExportTasksCommand}"
+                                            Padding="16,8" Margin="0,0,12,0"/>
+                                    <Button Content="{DynamicResource Settings_ImportTasks}"
+                                            Style="{DynamicResource GhostButtonStyle}"
+                                            Command="{Binding ImportTasksCommand}"
+                                            Padding="16,8"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- ── LANGUAGE ───────────────────────────────────────── -->
+                    <StackPanel>
+                        <StackPanel.Style>
+                            <Style TargetType="StackPanel">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ActiveTab}" Value="Language">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+
+                        <TextBlock Text="{DynamicResource Settings_Language}" Style="{StaticResource SectionTitle}"/>
+
+                        <Border Style="{StaticResource SettingCard}">
+                            <StackPanel>
+                                <TextBlock Text="{DynamicResource Settings_ChooseLanguage}"
+                                           Style="{StaticResource GroupLabel}" Margin="0,0,0,12"/>
+
+                                <!-- Vietnamese -->
+                                <Border x:Name="LangViBorder" CornerRadius="8" Padding="16,12"
+                                        Margin="0,0,0,8" Cursor="Hand">
+                                    <Border.InputBindings>
+                                        <MouseBinding MouseAction="LeftClick"
+                                                      Command="{Binding ChangeLanguageCommand}"
+                                                      CommandParameter="vi"/>
+                                    </Border.InputBindings>
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Background" Value="{DynamicResource AppBackground}"/>
+                                            <Setter Property="BorderBrush" Value="{DynamicResource DividerBrush}"/>
+                                            <Setter Property="BorderThickness" Value="1"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Language}" Value="vi">
+                                                    <Setter Property="Background" Value="{DynamicResource Primary50Brush}"/>
+                                                    <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                                                    <Setter Property="BorderThickness" Value="2"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <Grid>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="🇻🇳" FontSize="22" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                                            <StackPanel VerticalAlignment="Center">
+                                                <TextBlock Text="{DynamicResource Lang_Vietnamese}"
+                                                           FontSize="14" FontWeight="Medium"
+                                                           Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                                <TextBlock Text="Tiếng Việt" FontSize="11"
+                                                           Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                        <materialDesign:PackIcon Kind="CheckCircle" Width="20" Height="20"
+                                                                 HorizontalAlignment="Right" VerticalAlignment="Center"
+                                                                 Foreground="{DynamicResource PrimaryBrush}">
+                                            <materialDesign:PackIcon.Style>
+                                                <Style TargetType="materialDesign:PackIcon">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Language}" Value="vi">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </materialDesign:PackIcon.Style>
+                                        </materialDesign:PackIcon>
+                                    </Grid>
+                                </Border>
+
+                                <!-- English -->
+                                <Border CornerRadius="8" Padding="16,12" Cursor="Hand">
+                                    <Border.InputBindings>
+                                        <MouseBinding MouseAction="LeftClick"
+                                                      Command="{Binding ChangeLanguageCommand}"
+                                                      CommandParameter="en"/>
+                                    </Border.InputBindings>
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Background" Value="{DynamicResource AppBackground}"/>
+                                            <Setter Property="BorderBrush" Value="{DynamicResource DividerBrush}"/>
+                                            <Setter Property="BorderThickness" Value="1"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Language}" Value="en">
+                                                    <Setter Property="Background" Value="{DynamicResource Primary50Brush}"/>
+                                                    <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                                                    <Setter Property="BorderThickness" Value="2"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <Grid>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="🇬🇧" FontSize="22" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                                            <StackPanel VerticalAlignment="Center">
+                                                <TextBlock Text="{DynamicResource Lang_English}"
+                                                           FontSize="14" FontWeight="Medium"
+                                                           Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                                <TextBlock Text="English" FontSize="11"
+                                                           Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                        <materialDesign:PackIcon Kind="CheckCircle" Width="20" Height="20"
+                                                                 HorizontalAlignment="Right" VerticalAlignment="Center"
+                                                                 Foreground="{DynamicResource PrimaryBrush}">
+                                            <materialDesign:PackIcon.Style>
+                                                <Style TargetType="materialDesign:PackIcon">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Language}" Value="en">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </materialDesign:PackIcon.Style>
+                                        </materialDesign:PackIcon>
+                                    </Grid>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- ── FOCUS MODE ──────────────────────────────────────── -->
+                    <StackPanel>
+                        <StackPanel.Style>
+                            <Style TargetType="StackPanel">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ActiveTab}" Value="Focus">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+
+                        <TextBlock Text="{DynamicResource Page_Focus}" Style="{StaticResource SectionTitle}"/>
+
+                        <Border Style="{StaticResource SettingCard}">
+                            <StackPanel>
+                                <TextBlock Text="{DynamicResource Settings_FocusDuration}" Style="{StaticResource GroupLabel}" Margin="0,0,0,8"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="80"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{DynamicResource Settings_FocusLength}"
+                                               Foreground="{DynamicResource TextPrimaryBrush}"
+                                               VerticalAlignment="Center"/>
+                                    <TextBox Grid.Column="1"
+                                             Text="{Binding FocusDurationMinutes, UpdateSourceTrigger=PropertyChanged}"
+                                             Style="{DynamicResource RoundedTextBoxStyle}"
+                                             FontFamily="Consolas" TextAlignment="Center"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource SettingCard}">
+                            <StackPanel>
+                                <TextBlock Text="{DynamicResource Settings_DuringFocus}" Style="{StaticResource GroupLabel}" Margin="0,0,0,8"/>
+                                <CheckBox Content="{DynamicResource Settings_SuppressToasts}"
+                                          IsChecked="{Binding FocusSuppressToasts}"
+                                          Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,8"/>
+                                <CheckBox Content="{DynamicResource Settings_SuppressSounds}"
+                                          IsChecked="{Binding FocusSuppressSounds}"
+                                          Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,8"/>
+                                <CheckBox Content="{DynamicResource Settings_PlayEndSound}"
+                                          IsChecked="{Binding FocusPlayEndSound}"
+                                          Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+
+        <!-- ── Footer ─────────────────────────────────────────────────────── -->
+        <Border Grid.Row="2"
+                Background="{DynamicResource SurfaceBrush}"
+                BorderThickness="0,1,0,0"
+                BorderBrush="{DynamicResource DividerBrush}"
+                Padding="24,12">
+            <Grid>
+                <!-- Status message -->
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <materialDesign:PackIcon VerticalAlignment="Center" Width="16" Height="16" Margin="0,0,6,0">
+                        <materialDesign:PackIcon.Style>
+                            <Style TargetType="materialDesign:PackIcon">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsSuccess}" Value="True">
+                                        <Setter Property="Kind"       Value="CheckCircle"/>
+                                        <Setter Property="Foreground" Value="{DynamicResource SuccessBrush}"/>
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </materialDesign:PackIcon.Style>
+                    </materialDesign:PackIcon>
+                    <TextBlock Text="{Binding StatusMessage}"
+                               FontSize="12" VerticalAlignment="Center">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="{DynamicResource ErrorBrush}"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsSuccess}" Value="True">
+                                        <Setter Property="Foreground" Value="{DynamicResource SuccessBrush}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding StatusMessage}" Value="">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </StackPanel>
+
+                <!-- Save button -->
+                <Button HorizontalAlignment="Right"
+                        Content="{DynamicResource Btn_SaveSettings}"
+                        Style="{DynamicResource PrimaryButtonStyle}"
+                        Command="{Binding SaveCommand}"
+                        Padding="20,8"/>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>
